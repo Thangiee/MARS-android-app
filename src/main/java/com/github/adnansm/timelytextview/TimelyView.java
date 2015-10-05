@@ -101,7 +101,7 @@ public class TimelyView extends View {
         // A new paint with the style as stroke.
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.WHITE);
+        mPaint.setColor(Color.BLACK);
         mPaint.setStrokeWidth(8.0f);
         mPaint.setStyle(Paint.Style.STROKE);
         mPath = new Path();
