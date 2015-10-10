@@ -1,6 +1,6 @@
 import android.Keys._
 
-android.Plugin.androidBuild
+scalaVersion := "2.11.7"
 
 packagingOptions in Android := PackagingOptions(
   excludes =
@@ -18,6 +18,12 @@ proguardOptions in Android ++= Seq(
   "-dontoptimize",
   "-keepattributes Signature",
   "-dontpreverify"
+)
+
+// android support libs
+val androidSupportV = "23.0.1"
+libraryDependencies ++= Seq(
+  aar("com.android.support" % "appcompat-v7" % androidSupportV)
 )
 
 run <<= run in Android
