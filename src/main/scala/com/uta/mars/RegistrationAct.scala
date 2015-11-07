@@ -60,7 +60,6 @@ class RegistrationAct extends SBaseActivity {
       .start()
 
     val returnTrans = R.transition.reg_to_login.r2Trans
-    returnTrans.onTransitionStart((trans, listener) => trans.removeListener(listener))
     getWindow.setSharedElementReturnTransition(returnTrans)
 
     delay(500)(finishAfterTransition())
