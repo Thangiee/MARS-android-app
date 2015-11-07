@@ -4,7 +4,8 @@ object ProguardSettings {
     "-dontoptimize",
     "-keepattributes Signature",
     "-dontpreverify",
-    "-dontwarn org.scaloid.**"
+    "-dontwarn org.scaloid.**",
+    "-dontwarn com.makeramen.**"
   )
 
   val cache = Seq(

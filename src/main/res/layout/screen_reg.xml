@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res/com.uta.mars"
+    android:id="@+id/scene_root"
+    android:orientation="vertical"
+    android:background="@color/primary_dark"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- An invisible view aligned to the center of the parent. Allows other
+    views to be arranged on either side -->
+    <View
+        android:id="@+id/centerShim"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:visibility="invisible"
+        android:layout_centerVertical="true" />
+
+    <include
+        layout="@layout/login_form"
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignTop="@+id/centerShim"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <include
+        layout="@layout/reg_fab"
+        android:id="@+id/fab_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginRight="-31dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignTop="@+id/login_form"
+        android:layout_alignParentRight="false"
+        android:layout_alignRight="@+id/login_form" />
+
+    <include
+        layout="@layout/reg_form"
+        android:id="@+id/reg_form"
+        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_alignTop="@+id/centerShim"
+        android:visibility="invisible"
+    />
+
+</RelativeLayout>

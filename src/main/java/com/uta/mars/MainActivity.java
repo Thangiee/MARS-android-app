@@ -12,7 +12,5 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-        StopWatchView stopWatch = (StopWatchView) findViewById(R.id.stop_watch);
     }
 }

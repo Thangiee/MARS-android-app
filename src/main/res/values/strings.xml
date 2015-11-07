@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MainActivity</string>
+    <string name="reg">Registration</string>
+
+    <string name="shared_fab_reg">shared_fab_reg</string>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android:com.github.clans.fab.FloatingActionButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res/com.uta.mars"
+    android:transitionName="@string/shared_fab_reg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_add_white_24dp"
+    fab:fab_colorNormal="@color/accent"
+    fab:fab_colorPressed="@color/accent"
+    fab:fab_colorRipple="@color/md_grey_700"
+    fab:fab_elevationCompat="4dp" />
