@@ -15,6 +15,8 @@ packagingOptions := PackagingOptions(
 proguardOptions ++= ProguardSettings.options
 proguardCache ++= ProguardSettings.cache
 
+resolvers += "jitpack" at "https://jitpack.io"
+
 // android support libs
 val androidSupportV = "23.0.1"
 libraryDependencies ++= Seq(
@@ -29,6 +31,9 @@ libraryDependencies ++= Seq(
   "com.pnikosis"              % "materialish-progress" % "1.7",   // https://github.com/pnikosis/materialish-progress
   "com.github.clans"          % "fab"                  % "1.6.1", // https://github.com/Clans/FloatingActionButton
   "com.makeramen"             % "roundedimageview"     % "2.2.1", // https://github.com/vinc3m1/RoundedImageView
+  "com.rengwuxian.materialedittext" % "library"        % "2.1.4", // https://github.com/rengwuxian/MaterialEditText
+
+  "com.github.dmytrodanylyk"  % "android-morphing-button" % "98a4986e56", // https://github.com/dmytrodanylyk/android-morphing-button
 
   // https://github.com/gabrielemariotti/cardslib
   "com.github.gabrielemariotti.cards" % "cardslib-core" % "2.1.0",

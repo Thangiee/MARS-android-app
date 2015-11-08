@@ -3,29 +3,95 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card="http://schemas.android.com/apk/res/com.uta.mars"
+    xmlns:met="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_bg"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     card:card_layout_resourceID="@layout/blank_card"
-    card_view:cardCornerRadius="8dp">
+    card_view:cardCornerRadius="8dp"
+    android:background="@color/accent">
 
     <RelativeLayout
         android:id="@+id/reg_form_inner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
         android:clickable="false">
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
-            android:textSize="24dp"
-            android:layout_marginLeft="16dp"
+            android:text="@string/login"
+            android:textSize="24sp"
+            android:layout_marginLeft="28dp"
             android:textColor="@color/accent"
             android:layout_marginTop="16dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
 
+        <ImageView
+            android:layout_width="4dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_alignTop="@+id/textView"
+            android:layout_alignBottom="@+id/textView"
+            android:background="@color/accent"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user"
+            met:met_floatingLabel="highlight"
+            met:met_floatingLabelText="@string/user"
+            met:met_primaryColor="@color/accent"
+            met:met_floatingLabelTextSize="14sp"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:layout_below="@+id/textView"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_marginRight="28dp"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/pass"
+            met:met_floatingLabel="highlight"
+            met:met_floatingLabelText="@string/pass"
+            met:met_primaryColor="@color/accent"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:textSize="16sp"
+            android:layout_below="@+id/et_username"
+            android:layout_alignLeft="@+id/et_username"
+            android:layout_marginTop="8dp"
+            android:layout_alignRight="@+id/et_username"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/et_password"
+            android:layout_marginTop="16dp"
+            android:layout_alignLeft="@+id/et_username"
+            android:layout_alignRight="@+id/et_username">
+
+            <com.dd.morphingbutton.impl.IndeterminateProgressButton
+                android:id="@+id/login_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/md_white"
+                android:layout_gravity="center"
+                android:text="@string/login"/>
+        </FrameLayout>
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>

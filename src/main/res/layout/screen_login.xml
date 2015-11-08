@@ -11,21 +11,22 @@
     views to be arranged on either side -->
     <View
         android:id="@+id/centerShim"
-        android:layout_height="0dp"
+        android:layout_height="112dp"
         android:layout_width="0dp"
         android:visibility="invisible"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+    />
 
     <include
         layout="@layout/login_form"
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignTop="@+id/centerShim"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/centerShim"/>
 
     <include
         layout="@layout/reg_fab"
@@ -38,5 +39,14 @@
         android:layout_alignTop="@+id/login_form"
         android:layout_alignParentRight="false"
         android:layout_alignRight="@+id/login_form" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/mavs_logo"
+        android:layout_marginTop="16dp"/>
 
 </RelativeLayout>

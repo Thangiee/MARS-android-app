@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="shared_fab_reg">shared_fab_reg</string>
+
     <string name="app_name">MainActivity</string>
     <string name="reg">Registration</string>
-
-    <string name="shared_fab_reg">shared_fab_reg</string>
+    <string name="login">Login</string>
+    <string name="user">Username</string>
+    <string name="pass">Password</string>
+    <string name="pass_confirm">Confirm password</string>
+    <string name="next">Next</string>
 </resources>

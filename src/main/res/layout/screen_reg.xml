@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res/com.uta.mars"
     android:id="@+id/scene_root"
     android:orientation="vertical"
     android:background="@color/primary_dark"
@@ -13,7 +11,7 @@
     views to be arranged on either side -->
     <View
         android:id="@+id/centerShim"
-        android:layout_height="0dp"
+        android:layout_height="112dp"
         android:layout_width="0dp"
         android:visibility="invisible"
         android:layout_centerVertical="true" />
@@ -22,7 +20,7 @@
         layout="@layout/login_form"
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/centerShim"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
@@ -44,7 +42,7 @@
     <include
         layout="@layout/reg_form"
         android:id="@+id/reg_form"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
@@ -53,5 +51,14 @@
         android:layout_alignTop="@+id/centerShim"
         android:visibility="invisible"
     />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/mavs_logo"
+        android:layout_marginTop="16dp"/>
 
 </RelativeLayout>

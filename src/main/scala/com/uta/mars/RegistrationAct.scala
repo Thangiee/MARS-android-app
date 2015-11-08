@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v7.widget.CardView
 import android.view.{View, ViewAnimationUtils}
 import android.widget.ImageView
+import com.dd.morphingbutton.MorphingButton
+import com.dd.morphingbutton.impl.IndeterminateProgressButton
 import com.github.clans.fab.FloatingActionButton
 import com.uta.mars.common.{SBaseActivity, _}
 import io.codetail.animation.arcanimator.{ArcAnimator, Side}
@@ -14,14 +16,20 @@ class RegistrationAct extends SBaseActivity {
   private lazy val regFAB    = find[FloatingActionButton](R.id.fab_reg)
   private lazy val regForm   = find[CardView](R.id.reg_form)
   private lazy val loginForm = find[CardView](R.id.login_form)
+  private lazy val nextBtn   = find[IndeterminateProgressButton](R.id.reg_next_btn)
   private lazy val cancelBtn = find[ImageView](R.id.cancel)
 
   override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
     setContentView(R.layout.screen_reg)
 
-    cancelBtn.onClick((v: View) => setupReturnTransition())
+    def square = MorphingButton.Params.create().duration(1).cornerRadius(2.dip).width(100.dip).height(56.dip)
+      .color(R.color.accent.r2Color).colorPressed(R.color.md_orange_700.r2Color).text(R.string.login.r2str)
 
+    find[IndeterminateProgressButton](R.id.login_btn).morph(square)
+    nextBtn.morph(square.color(R.color.md_white.r2Color).text(R.string.next.r2str))
+
+    cancelBtn.onClick((v: View) => setupReturnTransition())
     setupEnterTransition()
   }
 
@@ -33,7 +41,7 @@ class RegistrationAct extends SBaseActivity {
     val trans = R.transition.login_to_reg.r2Trans
 
     trans.onTransitionStart { (trans, listener) =>
-      ArcAnimator.createArcAnimator(regFAB, loginForm, 90, Side.RIGHT)
+      ArcAnimator.createArcAnimator(regFAB, regForm, 90, Side.RIGHT)
         .setDuration(500)
         .start()
 
@@ -41,8 +49,8 @@ class RegistrationAct extends SBaseActivity {
 
       delay(600) {
         regForm.visibility = View.VISIBLE
-        ViewAnimationUtils.createCircularReveal(regForm, regForm.centerX, regForm.centerY, 40, regForm.getWidth)
-          .setDuration(500)
+        ViewAnimationUtils.createCircularReveal(regForm, regForm.centerX, regForm.centerY, 56, regForm.getHeight)
+          .setDuration(1000)
           .onAnimationStart(_ => regFAB.visibility = View.INVISIBLE)
           .start()
       }
@@ -52,8 +60,8 @@ class RegistrationAct extends SBaseActivity {
   }
 
   private def setupReturnTransition(): Unit = {
-    ViewAnimationUtils.createCircularReveal(regForm, regForm.centerX, regForm.centerY, regForm.getWidth, 40)
-      .setDuration(500)
+    ViewAnimationUtils.createCircularReveal(regForm, regForm.centerX, regForm.centerY, regForm.getHeight, 56)
+      .setDuration(1000)
       .onAnimationStart(_ => loginForm.startAnimation(R.anim.login_form_to_fg.r2anim))
       .onAnimationEnd(_ => regForm.visibility = View.INVISIBLE)
       .onAnimationEnd(_ => regFAB.visibility = View.VISIBLE)
@@ -62,6 +70,6 @@ class RegistrationAct extends SBaseActivity {
     val returnTrans = R.transition.reg_to_login.r2Trans
     getWindow.setSharedElementReturnTransition(returnTrans)
 
-    delay(500)(finishAfterTransition())
+    delay(650)(finishAfterTransition())
   }
 }

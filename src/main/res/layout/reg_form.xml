@@ -3,26 +3,116 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card="http://schemas.android.com/apk/res/com.uta.mars"
+    xmlns:met="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     card:cardBackgroundColor="@color/accent"
     card:card_layout_resourceID="@layout/blank_card"
     card_view:cardCornerRadius="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/reg"
             android:textSize="24sp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="28dp"
             android:textColor="@color/md_white"
             android:layout_marginTop="16dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <ImageView
+            android:layout_width="4dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_alignTop="@+id/textView"
+            android:layout_alignBottom="@+id/textView"
+            android:background="@color/md_white"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_reg_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user"
+            met:met_floatingLabel="highlight"
+            met:met_baseColor="@color/md_white"
+            met:met_floatingLabelText="@string/user"
+            met:met_primaryColor="@color/md_white"
+            met:met_floatingLabelTextSize="14sp"
+            met:met_textColor="@color/md_white"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:layout_below="@+id/textView"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_marginRight="28dp"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_reg_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/pass"
+            met:met_floatingLabel="highlight"
+            met:met_floatingLabelText="@string/pass"
+            met:met_baseColor="@color/md_white"
+            met:met_primaryColor="@color/md_white"
+            met:met_textColor="@color/md_white"
+            met:met_floatingLabelTextSize="14sp"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:textSize="16sp"
+            android:layout_below="@+id/et_reg_username"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_marginTop="8dp"
+            android:layout_alignRight="@+id/et_reg_username"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_reg_password_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/pass_confirm"
+            met:met_floatingLabel="highlight"
+            met:met_floatingLabelText="@string/pass_confirm"
+            met:met_baseColor="@color/md_white"
+            met:met_primaryColor="@color/md_white"
+            met:met_textColor="@color/md_white"
+            met:met_floatingLabelTextSize="14sp"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:textSize="16sp"
+            android:layout_below="@+id/et_reg_password"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_marginTop="8dp"
+            android:layout_alignRight="@+id/et_reg_username"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/et_reg_password_confirm"
+            android:layout_marginTop="16dp"
+            android:layout_alignLeft="@+id/et_reg_username"
+            android:layout_alignRight="@+id/et_reg_username">
+
+            <com.dd.morphingbutton.impl.IndeterminateProgressButton
+                android:id="@+id/reg_next_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/accent"
+                android:layout_gravity="center"
+                android:text="@string/next"/>
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/cancel"
