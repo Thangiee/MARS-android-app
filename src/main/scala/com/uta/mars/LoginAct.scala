@@ -44,6 +44,8 @@ class LoginAct extends SBaseActivity {
           .icon(R.drawable.ic_done)
 
         loginBtn.morph(success)
+        startActivity[HomeAct]
+        finish()
       }
     }
   }

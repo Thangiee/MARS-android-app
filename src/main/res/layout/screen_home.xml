@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:swv="http://schemas.android.com/apk/res/com.uta.mars"
+                xmlns:fab="http://schemas.android.com/apk/res/com.uta.mars"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/screen_gray_bg"
+>
+
+    <include layout="@layout/toolbar"/>
+
+    <com.uta.mars.StopWatchView
+        android:id="@+id/stop_watch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        swv:swv_radius="150dp"
+        android:layout_centerInParent="true"/>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_person_outline_white_24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        fab:fab_colorNormal="@color/accent"
+        fab:fab_colorPressed="@color/accent"
+        fab:fab_colorRipple="@color/md_grey_700"
+    />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_clock_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_alarm_add_white_24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        fab:fab_colorNormal="@color/accent"
+        fab:fab_colorPressed="@color/accent"
+        fab:fab_colorRipple="@color/md_grey_700"/>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_clock_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_alarm_off_white_24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+    />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_time_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_time_sheet"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        fab:fab_colorNormal="@color/accent"
+        fab:fab_colorPressed="@color/accent"
+        fab:fab_colorRipple="@color/md_grey_700"
+    />
+
+</RelativeLayout>

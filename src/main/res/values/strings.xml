@@ -9,4 +9,6 @@
     <string name="pass">Password</string>
     <string name="pass_confirm">Confirm password</string>
     <string name="next">Next</string>
+    <string name="logout">Logout</string>
+    <string name="about">About</string>
 </resources>

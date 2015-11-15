@@ -161,13 +161,15 @@ class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardViewNative(ct
    */
   def reset(): Unit = {
     stop()
-    accumulatedTime = 0.millis
-    delay(500) {
-      // set to 0:00:00
-      List(sTv, ssTv, mTv, mmTv, hTv).foreach(_.animate(0).setDuration(500).start())
+    if (accumulatedTime != 0.millis) {
+      accumulatedTime = 0.millis
+      delay(500) {
+        // set to 0:00:00
+        List(sTv, ssTv, mTv, mmTv, hTv).foreach(_.animate(0).setDuration(500).start())
 
-      progressWheel.setBarColor(Color.HSVToColor(Array(120f, 1f, 1f))) // green
-      progressWheel.setProgress(1)
+        progressWheel.setBarColor(Color.HSVToColor(Array(120f, 1f, 1f))) // green
+        progressWheel.setProgress(1)
+      }
     }
   }
 
