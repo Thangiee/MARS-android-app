@@ -18,7 +18,7 @@ proguardCache ++= ProguardSettings.cache
 resolvers += "jitpack" at "https://jitpack.io"
 
 // android support libs
-val androidSupportV = "23.0.1"
+val androidSupportV = "23.1.1"
 libraryDependencies ++= Seq(
   aar("com.android.support" % "appcompat-v7" % androidSupportV),
   aar("com.android.support" % "cardview-v7" % androidSupportV),
