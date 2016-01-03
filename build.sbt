@@ -33,11 +33,7 @@ libraryDependencies ++= Seq(
   "com.makeramen"             % "roundedimageview"     % "2.2.1", // https://github.com/vinc3m1/RoundedImageView
   "com.rengwuxian.materialedittext" % "library"        % "2.1.4", // https://github.com/rengwuxian/MaterialEditText
 
-  "com.github.dmytrodanylyk"  % "android-morphing-button" % "98a4986e56", // https://github.com/dmytrodanylyk/android-morphing-button
-
-  // https://github.com/gabrielemariotti/cardslib
-  "com.github.gabrielemariotti.cards" % "cardslib-core" % "2.1.0",
-  "com.github.gabrielemariotti.cards" % "cardslib-cards" % "2.1.0"
+  "com.github.dmytrodanylyk"  % "android-morphing-button" % "98a4986e56" // https://github.com/dmytrodanylyk/android-morphing-button
 )
 
 run <<= run in Android

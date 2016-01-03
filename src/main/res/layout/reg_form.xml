@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card:cardBackgroundColor="@color/accent"
-    card:card_layout_resourceID="@layout/blank_card"
     card_view:cardCornerRadius="8dp">
 
     <RelativeLayout

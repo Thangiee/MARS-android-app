@@ -2,12 +2,10 @@
 <android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card="http://schemas.android.com/apk/res/com.uta.mars"
     xmlns:met="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card:card_layout_resourceID="@layout/blank_card"
     card_view:cardCornerRadius="8dp"
     android:background="@color/accent">
 

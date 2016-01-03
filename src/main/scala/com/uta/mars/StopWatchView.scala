@@ -2,18 +2,18 @@ package com.uta.mars
 
 import android.content.Context
 import android.graphics.{Canvas, Color, Paint}
+import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View.MeasureSpec
 import com.github.adnansm.timelytextview.TimelyView
 import com.github.adnansm.timelytextview.model.NumberUtils
 import com.pnikosis.materialishprogress.ProgressWheel
 import com.uta.mars.common._
-import it.gmariotti.cardslib.library.view.CardViewNative
 import org.scaloid.common._
 
 import scala.concurrent.duration._
 
-class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardViewNative(ctx, attrs) with STraitViewGroup {
+class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, attrs) with STraitViewGroup {
 
   // views for the digits
   private val sTv  = new TimelyView(ctx)
@@ -23,7 +23,6 @@ class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardViewNative(ct
   private val hTv  = new TimelyView(ctx)
 
   private val progressWheel = new ProgressWheel(ctx)
-//  private val cardView      = new CardViewNative(ctx)
   private val mPaint        = new Paint
 
   private val Radius = (R.styleable.StopWatchView, R.styleable.StopWatchView_swv_radius).r2PxSize(attrs)
