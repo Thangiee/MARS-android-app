@@ -11,7 +11,7 @@ import com.pnikosis.materialishprogress.ProgressWheel
 import com.uta.mars.common._
 import org.scaloid.common._
 
-import scala.concurrent.duration._
+import com.github.nscala_time.time.Imports._
 
 class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, attrs) with STraitViewGroup {
 
@@ -27,9 +27,9 @@ class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, att
 
   private val Radius = (R.styleable.StopWatchView, R.styleable.StopWatchView_swv_radius).r2PxSize(attrs)
 
-  private var accumulatedTime = 0.millis
-  private var startTime       = 0.millis
-  private var _maxTime        = 9.hours + 59.minutes + 59.seconds
+  private var accumulatedTime = 0.millis.toDuration
+  private var startTime       = 0.millis.toDuration
+  private var _maxTime        = (9.hours + 59.minutes + 59.seconds).toDuration
   private var isPaused        = true
 
   override def onAttachedToWindow(): Unit = {
@@ -119,31 +119,31 @@ class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, att
    *
    * @return the elapsed time in milliseconds */
   def elapsedTime: Long =
-    if (isPaused) accumulatedTime.toMillis else (accumulatedTime + System.currentTimeMillis().millis - startTime).toMillis
+    if (isPaused) accumulatedTime.millis else (accumulatedTime + System.currentTimeMillis() - startTime).getMillis
 
   /** Stop the stop watch */
   def stop(): Unit = {
     if (!isPaused) {
       clearAllRepeatTasks()
-      accumulatedTime += System.currentTimeMillis().millis - startTime
+      accumulatedTime = accumulatedTime + System.currentTimeMillis() - startTime
       isPaused = true
     }
   }
 
   /** start the stop watch */
   def start(): Unit = {
-    if (isPaused && (elapsedTime.millis.toSeconds <= maxTime)) {
-      startTime = System.currentTimeMillis().millis
+    if (isPaused && (elapsedTime <= maxTime)) {
+      startTime = System.currentTimeMillis().toDuration
 
       // animate the digits while max time has not been reach
       repeat(initDelay = 1.second ,period = 1.second) {
-        if (elapsedTime.millis.toSeconds <= maxTime) animateTick(elapsedTime)
+        if (elapsedTime <= maxTime) animateTick(elapsedTime)
         else stop()
       }
 
       // animate progress wheel
       repeat(period = 100.millis) {
-        val perc = ((_maxTime - elapsedTime.millis) / _maxTime).toFloat
+        val perc = (maxTime - elapsedTime).toFloat / maxTime
         if (perc >= 0) {
           progressWheel.setProgress(perc)
           progressWheel.setBarColor(Color.HSVToColor(Array(perc * 120, 1f, 1f))) // shift from green to red as the wheel decreases
@@ -160,9 +160,9 @@ class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, att
    */
   def reset(): Unit = {
     stop()
-    if (accumulatedTime != 0.millis) {
+    if (accumulatedTime.getMillis != 0) {
       accumulatedTime = 0.millis
-      delay(500) {
+      delay(500.millis) {
         // set to 0:00:00
         List(sTv, ssTv, mTv, mmTv, hTv).foreach(_.animate(0).setDuration(500).start())
 
@@ -177,17 +177,17 @@ class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, att
    *
    * @param sec the max time in seconds. Cannot be greater than 9hr 59min 59s (35999s).
    */
-  def maxTime_=(sec: Long) = {
-    if (sec > (9.hours + 59.minutes + 59.seconds).toSeconds) {
+  def maxTime_=(sec: Int) = {
+    if (sec > (9.hours + 59.minutes + 59.seconds).seconds) {
       warn("maxTime cannot be greater than 9hr 59min 59s; setting maxTime to said limit.")
       _maxTime = 9.hours + 59.minutes + 59.seconds
     } else {
-      _maxTime = sec.seconds
+      _maxTime = sec.seconds.toDuration
     }
   }
 
-  /** @return the set max time in seconds */
-  def maxTime: Long = _maxTime.toSeconds
+  /** @return the set max time in milliseconds */
+  def maxTime: Long = _maxTime.getMillis
 
   private def animateTick(millis: Long): Unit = {
     val s = millis / 1000

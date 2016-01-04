@@ -31,7 +31,9 @@ libraryDependencies ++= Seq(
   "com.pnikosis"              % "materialish-progress" % "1.7",   // https://github.com/pnikosis/materialish-progress
   "com.github.clans"          % "fab"                  % "1.6.1", // https://github.com/Clans/FloatingActionButton
   "com.makeramen"             % "roundedimageview"     % "2.2.1", // https://github.com/vinc3m1/RoundedImageView
-  "com.rengwuxian.materialedittext" % "library"        % "2.1.4", // https://github.com/rengwuxian/MaterialEditText
+  "com.rengwuxian.materialedittext" % "library"        % "2.1.4", // https://github.com/rengwuxian/MaterialEditText,
+  "com.github.nscala-time"    %% "nscala-time"         % "2.6.0", // https://github.com/nscala-time/nscala-time
+  "org.scalaj"                %% "scalaj-http"         % "2.2.0", // https://github.com/scalaj/scalaj-http
 
   "com.github.dmytrodanylyk"  % "android-morphing-button" % "98a4986e56" // https://github.com/dmytrodanylyk/android-morphing-button
 )

@@ -82,7 +82,7 @@
             android:layout_alignLeft="@+id/et_username"
             android:layout_alignRight="@+id/et_username">
 
-            <com.dd.morphingbutton.impl.IndeterminateProgressButton
+            <com.dd.morphingbutton.impl.LinearProgressButton
                 android:id="@+id/login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

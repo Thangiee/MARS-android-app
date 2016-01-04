@@ -11,6 +11,8 @@ import com.uta.mars.common.{SBaseActivity, _}
 import io.codetail.animation.arcanimator.{ArcAnimator, Side}
 import org.scaloid.common._
 
+import com.github.nscala_time.time.Imports._
+
 class RegistrationAct extends SBaseActivity {
 
   private lazy val regFAB    = find[FloatingActionButton](R.id.fab_reg)
@@ -47,7 +49,7 @@ class RegistrationAct extends SBaseActivity {
 
       loginForm.startAnimation(R.anim.login_form_to_bg.r2anim)
 
-      delay(600) {
+      delay(600.millis) {
         regForm.visibility = View.VISIBLE
         ViewAnimationUtils.createCircularReveal(regForm, regForm.centerX, regForm.centerY, 56, regForm.getHeight)
           .setDuration(1000)
@@ -70,6 +72,6 @@ class RegistrationAct extends SBaseActivity {
     val returnTrans = R.transition.reg_to_login.r2Trans
     getWindow.setSharedElementReturnTransition(returnTrans)
 
-    delay(650)(finishAfterTransition())
+    delay(650.millis)(finishAfterTransition())
   }
 }

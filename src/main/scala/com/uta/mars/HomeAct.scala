@@ -7,6 +7,7 @@ import android.view.{MenuItem, Menu}
 import com.github.clans.fab.FloatingActionButton
 import com.uta.mars.common._
 import org.scaloid.common._
+import com.github.nscala_time.time.Imports._
 
 class HomeAct extends SBaseActivity {
 
@@ -27,20 +28,20 @@ class HomeAct extends SBaseActivity {
 
     // Make those FABs animate in from a left to right sequence
     Seq(profileFAB, clockInFAB, timeSheetFAB).zip(1 to 3).foreach {
-      case (fab, i) => delay(mills = i*250)(fab.show(true))
+      case (fab, i) => delay((i*250).millis)(fab.show(true))
     }
 
     clockInFAB.onClick {
       stopWatch.reset()
       stopWatch.start()
       clockInFAB.hide(true)
-      delay(mills = 250)(clockOutFAB.show(true))
+      delay(250.millis)(clockOutFAB.show(true))
     }
 
     clockOutFAB.onClick {
       stopWatch.stop()
       clockOutFAB.hide(true)
-      delay(mills = 250)(clockInFAB.show(true))
+      delay(250.millis)(clockInFAB.show(true))
     }
   }
 

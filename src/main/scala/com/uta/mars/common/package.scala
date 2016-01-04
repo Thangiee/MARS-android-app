@@ -1,30 +1,30 @@
 package com.uta.mars
 
-import java.util.concurrent.{TimeUnit, ScheduledThreadPoolExecutor}
-
 import android.animation.Animator
 import android.animation.Animator.AnimatorListener
 import android.content.Context
-import android.os.{Handler, Looper}
-import android.transition.{TransitionInflater, Transition}
+import android.os.Handler
 import android.transition.Transition.TransitionListener
+import android.transition.{Transition, TransitionInflater}
 import android.view.View
-import android.view.animation.{AnimationUtils, Animation}
+import android.view.animation.{Animation, AnimationUtils}
+import com.github.nscala_time.time.DurationBuilder
+import com.github.nscala_time.time.Imports._
 
-import scala.concurrent.duration._
+import scala.language.implicitConversions
 
 package object common {
 
   private val handler = new Handler()
   private val repeatHandler = new Handler()
 
-  def delay(mills: Long)(f: => Unit): Unit = {
-    handler.postDelayed(() => f, mills)
+  def delay(duration: DurationBuilder)(f: => Unit): Unit = {
+    handler.postDelayed(() => f, duration.millis)
   }
 
-  def repeat(initDelay: Duration = 0.second, period: Duration = 1.second)(f: => Unit): Runnable = {
-    lazy val runnable: Runnable = () => {f; repeatHandler.postDelayed(runnable, period.toMillis)}
-    repeatHandler.postDelayed(runnable, initDelay.toMillis)
+  def repeat(initDelay: DurationBuilder = 0.second, period: DurationBuilder = 1.second)(f: => Unit): Runnable = {
+    lazy val runnable: Runnable = () => {f; repeatHandler.postDelayed(runnable, period.millis)}
+    repeatHandler.postDelayed(runnable, initDelay.millis)
     runnable
   }
 
