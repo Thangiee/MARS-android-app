@@ -104,7 +104,7 @@
             android:layout_alignLeft="@+id/et_reg_username"
             android:layout_alignRight="@+id/et_reg_username">
 
-            <com.dd.morphingbutton.impl.IndeterminateProgressButton
+            <com.dd.morphingbutton.impl.LinearProgressButton
                 android:id="@+id/reg_next_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

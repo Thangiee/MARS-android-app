@@ -13,7 +13,7 @@ import org.scaloid.common._
 
 import com.github.nscala_time.time.Imports._
 
-class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, attrs) with STraitViewGroup {
+class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, attrs) with BaseViewGroup {
 
   // views for the digits
   private val sTv  = new TimelyView(ctx)

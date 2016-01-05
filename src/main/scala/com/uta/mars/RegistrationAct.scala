@@ -5,20 +5,20 @@ import android.support.v7.widget.CardView
 import android.view.{View, ViewAnimationUtils}
 import android.widget.ImageView
 import com.dd.morphingbutton.MorphingButton
-import com.dd.morphingbutton.impl.IndeterminateProgressButton
+import com.dd.morphingbutton.impl.LinearProgressButton
 import com.github.clans.fab.FloatingActionButton
-import com.uta.mars.common.{SBaseActivity, _}
+import com.uta.mars.common._
 import io.codetail.animation.arcanimator.{ArcAnimator, Side}
 import org.scaloid.common._
 
 import com.github.nscala_time.time.Imports._
 
-class RegistrationAct extends SBaseActivity {
+class RegistrationAct extends BaseActivity {
 
   private lazy val regFAB    = find[FloatingActionButton](R.id.fab_reg)
   private lazy val regForm   = find[CardView](R.id.reg_form)
   private lazy val loginForm = find[CardView](R.id.login_form)
-  private lazy val nextBtn   = find[IndeterminateProgressButton](R.id.reg_next_btn)
+  private lazy val nextBtn   = find[LinearProgressButton](R.id.reg_next_btn)
   private lazy val cancelBtn = find[ImageView](R.id.cancel)
 
   override def onCreate(b: Bundle): Unit = {
@@ -28,7 +28,7 @@ class RegistrationAct extends SBaseActivity {
     def square = MorphingButton.Params.create().duration(1).cornerRadius(2.dip).width(100.dip).height(56.dip)
       .color(R.color.accent.r2Color).colorPressed(R.color.md_orange_700.r2Color).text(R.string.login.r2str)
 
-    find[IndeterminateProgressButton](R.id.login_btn).morph(square)
+    find[LinearProgressButton](R.id.login_btn).morph(square)
     nextBtn.morph(square.color(R.color.md_white.r2Color).text(R.string.next.r2str))
 
     cancelBtn.onClick((v: View) => setupReturnTransition())

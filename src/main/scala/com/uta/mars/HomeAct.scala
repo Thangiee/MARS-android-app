@@ -9,7 +9,7 @@ import com.uta.mars.common._
 import org.scaloid.common._
 import com.github.nscala_time.time.Imports._
 
-class HomeAct extends SBaseActivity {
+class HomeAct extends BaseActivity {
 
   private lazy val toolbar      = find[Toolbar](R.id.toolbar)
   private lazy val profileFAB   = find[FloatingActionButton](R.id.fab_profile)
