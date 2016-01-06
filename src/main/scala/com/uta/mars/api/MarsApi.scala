@@ -2,6 +2,7 @@ package com.uta.mars.api
 
 import java.net.HttpCookie
 
+import com.typesafe.scalalogging.LazyLogging
 import play.api.libs.json.Json
 
 import scala.concurrent.Future
@@ -16,7 +17,7 @@ trait Session {
   def authnCookies: Seq[HttpCookie]
 }
 
-object MarsApi {
+object MarsApi extends AnyRef with LazyLogging {
   private val baseUrl = "http://52.33.35.165:8080/api"
 
   private def POST(route: String) = Http(baseUrl + route).method("POST")
@@ -48,7 +49,7 @@ object MarsApi {
   }
 
   private def defaultErrHandler(response: HttpResponse[String]): Err = {
-    // todo: logging
+    logger.warn(s"${response.code}-${response.body}")
 
     response.code match {
       case 400 => Err(400, "The request contains bad syntax or cannot be fulfilled.")

@@ -28,6 +28,12 @@ libraryDependencies ++= Seq(
   "com.android.support" % "recyclerview-v7" % androidSupportV
 )
 
+// logging
+libraryDependencies ++= Seq(
+  "com.noveogroup.android" % "android-logger"         % "1.3.5",
+  "com.typesafe.scala-logging" %% "scala-logging"     % "3.1.0"
+)
+
 libraryDependencies ++= Seq(
   "org.scaloid"              %% "scaloid"              % "4.0",   // https://github.com/pocorall/scaloid
   "com.github.asyl.animation" % "arcanimator"          % "1.0.0", // https://github.com/asyl/ArcAnimator
