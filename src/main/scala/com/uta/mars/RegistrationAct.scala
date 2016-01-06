@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.widget.CardView
 import android.view.{View, ViewAnimationUtils}
 import android.widget.ImageView
-import com.dd.morphingbutton.MorphingButton
 import com.dd.morphingbutton.impl.LinearProgressButton
 import com.github.clans.fab.FloatingActionButton
 import com.uta.mars.common._
@@ -25,11 +24,8 @@ class RegistrationAct extends BaseActivity {
     super.onCreate(b)
     setContentView(R.layout.screen_reg)
 
-    def square = MorphingButton.Params.create().duration(1).cornerRadius(2.dip).width(100.dip).height(56.dip)
-      .color(R.color.accent.r2Color).colorPressed(R.color.md_orange_700.r2Color).text(R.string.login.r2str)
-
-    find[LinearProgressButton](R.id.login_btn).morph(square)
-    nextBtn.morph(square.color(R.color.md_white.r2Color).text(R.string.next.r2str))
+    find[LinearProgressButton](R.id.login_btn).morphToNormalBtn(R.string.login.r2str)
+    nextBtn.morphToNormalBtn(R.string.next.r2str, R.color.md_white)
 
     cancelBtn.onClick((v: View) => setupReturnTransition())
     setupEnterTransition()

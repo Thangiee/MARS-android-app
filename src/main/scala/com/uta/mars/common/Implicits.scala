@@ -8,6 +8,10 @@ import android.transition.{TransitionInflater, Transition}
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.{AnimationUtils, Animation}
+import com.dd.morphingbutton.MorphingButton
+import com.dd.morphingbutton.impl.LinearProgressButton
+import com.uta.mars.R
+import org.scaloid.common._
 
 object Implicits extends Implicits
 object ResImplicits extends ResImplicits
@@ -15,9 +19,10 @@ object ViewImplicits extends ViewImplicits
 object TransitionImplicits extends TransitionImplicits
 object AnimatorImplicits extends AnimatorImplicits
 object AttrImplicits extends AttrImplicits
+object MorphingBtnImplicits extends MorphingBtnImplicits
 
 trait Implicits extends AnyRef with ResImplicits with ViewImplicits with TransitionImplicits with AnimatorImplicits
-                               with AttrImplicits
+                               with AttrImplicits with MorphingBtnImplicits
 
 trait ResImplicits {
   implicit class ResConversion(res: Int) {
@@ -78,6 +83,47 @@ trait AttrImplicits {
         val pxSize = typedArray.getDimensionPixelSize(index, defVal)
         typedArray.recycle()
         pxSize
+    }
+  }
+}
+
+trait MorphingBtnImplicits {
+  implicit class LinearProgressBtnConversion(btn: LinearProgressButton) {
+    def morphToNormalBtn(txt: String, colorRes: Int = R.color.accent)(implicit ctx: Context): Unit = {
+      val normalBtn = MorphingButton.Params.create()
+        .duration(1)
+        .cornerRadius(2.dip)
+        .width(100.dip)
+        .height(56.dip)
+        .color(colorRes.r2Color)
+        .colorPressed(R.color.md_orange_700.r2Color)
+        .text(txt)
+
+      btn.morph(normalBtn)
+    }
+
+    def morphToSuccessBtn()(implicit ctx: Context): Unit = {
+      val successBtn = MorphingButton.Params.create()
+        .duration(1000)
+        .cornerRadius(56.dip)
+        .width(56.dip)
+        .height(56.dip)
+        .color(R.color.md_light_green_500.r2Color)
+        .icon(R.drawable.ic_done)
+
+      btn.morph(successBtn)
+    }
+
+    def morphToErrorBtn()(implicit ctx: Context): Unit = {
+      val errorBtn = MorphingButton.Params.create()
+        .duration(1000)
+        .cornerRadius(56.dip)
+        .width(56.dip)
+        .height(56.dip)
+        .color(R.color.md_red_500.r2Color)
+        .icon(R.drawable.ic_close_white_24dp)
+
+      btn.morph(errorBtn)
     }
   }
 }
