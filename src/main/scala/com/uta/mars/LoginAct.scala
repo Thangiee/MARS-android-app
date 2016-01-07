@@ -46,7 +46,7 @@ class LoginAct extends BaseActivity {
       MarsApi.login(usernameEt.text.toString, passwordEt.text.toString).map {
         case Ok(cookies)    => super.session.saveAuthnCookies(cookies); goToHomeAct()
         case Err(403, msg)  => showInvalidUserOrPass()
-        case Err(code, msg) => showApiErrorDialog(code, msg); runOnUiThread(loginBtn.morphToErrorBtn())
+        case Err(code, msg) => showApiErrorDialog(code); runOnUiThread(loginBtn.morphToErrorBtn())
       }
     }
 
