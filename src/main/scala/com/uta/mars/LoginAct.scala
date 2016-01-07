@@ -3,6 +3,7 @@ package com.uta.mars
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.view.View
 import com.dd.morphingbutton.impl.LinearProgressButton
 import com.github.clans.fab.FloatingActionButton
@@ -46,6 +47,7 @@ class LoginAct extends BaseActivity {
       MarsApi.login(usernameEt.text.toString, passwordEt.text.toString).map {
         case Ok(cookies)    => super.session.saveAuthnCookies(cookies); goToHomeAct()
         case Err(403, msg)  => showInvalidUserOrPass()
+        case Err(498, msg)  => showNoConnection()
         case Err(code, msg) => showApiErrorDialog(code); runOnUiThread(loginBtn.morphToErrorBtn())
       }
     }
@@ -53,7 +55,7 @@ class LoginAct extends BaseActivity {
     def goToHomeAct(): Unit = runOnUiThread {
       fillProgressBar(50, 100, 500.millis)
       delay(550.millis)(loginBtn.morphToSuccessBtn())
-      delay(1050.millis) {
+      delay(1550.millis) {
         startActivity[HomeAct]
         finish()
       }
@@ -65,6 +67,14 @@ class LoginAct extends BaseActivity {
         Seq(usernameEt, passwordEt).foreach(_.setError("Invalid username or password"))
         loginBtn.morphToErrorBtn()
       }
+    }
+
+    def showNoConnection(): Unit = runOnUiThread {
+      loginBtn.morphToErrorBtn()
+      Snackbar
+        .make(find(R.id.scene_root), "Check your connection and try again.", 5.seconds.millis.toInt)
+        .setAction("Settings", (v: View) => startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS)))
+        .show()
     }
 
     def fillProgressBar(startPercent: Int, endPercent: Int, duration: Duration): Unit = {

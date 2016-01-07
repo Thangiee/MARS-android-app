@@ -23,6 +23,7 @@ resolvers ++= Seq(
 // android support libs
 val androidSupportV = "23.1.1"
 libraryDependencies ++= Seq(
+  "com.android.support" % "design"          % androidSupportV,
   "com.android.support" % "appcompat-v7"    % androidSupportV,
   "com.android.support" % "cardview-v7"     % androidSupportV,
   "com.android.support" % "recyclerview-v7" % androidSupportV
