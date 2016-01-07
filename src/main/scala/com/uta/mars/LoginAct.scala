@@ -13,7 +13,7 @@ import org.scaloid.common._
 import com.github.nscala_time.time.Imports._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
 
 class LoginAct extends BaseActivity {
 
@@ -42,10 +42,14 @@ class LoginAct extends BaseActivity {
   }
 
   private def doLogin(): Unit = {
-    fillProgressBar(0, 50, 500.millis)
+    fillProgressBar(0, 50, 500.millis) // fill progress bar from 0% to 50%
     delay(500.millis) {
       MarsApi.login(usernameEt.text.toString, passwordEt.text.toString).map {
-        case Ok(cookies)    => super.session.saveAuthnCookies(cookies); goToHomeAct()
+        case Ok(cookies)    =>
+          super.session.saveSessionCookies(cookies)
+          // check that the logged in user is an assistant before proceeding
+          if (isAssistantRole) goToHomeAct()
+          else { super.session.removeSessionCookies(); showInvalidRole() }
         case Err(403, msg)  => showInvalidUserOrPass()
         case Err(498, msg)  => showNoConnection()
         case Err(code, msg) => showApiErrorDialog(code); runOnUiThread(loginBtn.morphToErrorBtn())
@@ -53,7 +57,7 @@ class LoginAct extends BaseActivity {
     }
 
     def goToHomeAct(): Unit = runOnUiThread {
-      fillProgressBar(50, 100, 500.millis)
+      fillProgressBar(50, 100, 500.millis) // fill progress bar 50% to 100%
       delay(550.millis)(loginBtn.morphToSuccessBtn())
       delay(1550.millis) {
         startActivity[HomeAct]
@@ -61,20 +65,31 @@ class LoginAct extends BaseActivity {
       }
     }
 
-    def showInvalidUserOrPass(): Unit = runOnUiThread {
-      fillProgressBar(50, 100, 500.milli)
-      delay(550.millis) {
-        Seq(usernameEt, passwordEt).foreach(_.setError("Invalid username or password"))
-        loginBtn.morphToErrorBtn()
+    def isAssistantRole: Boolean = {
+      Await.result(MarsApi.accountInfo, 10.seconds) match {
+        case Ok(account) => if (account.role.toLowerCase == "assistant") true else false
+        case _           => false
       }
     }
 
-    def showNoConnection(): Unit = runOnUiThread {
+    def showInvalidUserOrPass(): Unit = runOnUiThread {
+      Seq(usernameEt, passwordEt).foreach(_.setError("Invalid username or password"))
       loginBtn.morphToErrorBtn()
+    }
+
+    def showNoConnection(): Unit = runOnUiThread {
       Snackbar
         .make(find(R.id.scene_root), "Check your connection and try again.", 5.seconds.millis.toInt)
         .setAction("Settings", (v: View) => startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS)))
         .show()
+      loginBtn.morphToErrorBtn()
+    }
+
+    def showInvalidRole(): Unit = runOnUiThread {
+      new AlertDialogBuilder("Invalid Role", "This app is only available to assistants.") {
+        positiveButton("Dismiss")
+      }.show()
+      loginBtn.morphToErrorBtn()
     }
 
     def fillProgressBar(startPercent: Int, endPercent: Int, duration: Duration): Unit = {

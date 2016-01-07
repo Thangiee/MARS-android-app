@@ -9,7 +9,9 @@ import scala.util.Try
 
 case class SessionPref() extends Session {
 
-  override lazy val authnCookies: Seq[HttpCookie] = Try(HttpCookie.parse(Prefs.getString("authn_cookies", "")).toList).getOrElse(Nil)
+  def authnCookies: Seq[HttpCookie] = Try(HttpCookie.parse(Prefs.getString("authn_cookies", "")).toList).getOrElse(Nil)
 
-  def saveAuthnCookies(httpCookies: Seq[HttpCookie]) = Prefs.putString("authn_cookies", httpCookies.mkString("; "))
+  def saveSessionCookies(httpCookies: Seq[HttpCookie]) = Prefs.putString("authn_cookies", httpCookies.mkString("; "))
+
+  def removeSessionCookies(): Unit = Prefs.remove("authn_cookies")
 }
