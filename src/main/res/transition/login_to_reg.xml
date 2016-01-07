@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
-               xmlns:tools="http://schemas.android.com/tools"
-               android:duration="1000"
-               android:transitionOrdering="sequential"
-               tools:targetApi="lollipop">
+               android:duration="1000">
 
-    <changeBounds/>
-    <changeTransform/>
-    <changeClipBounds/>
-    <changeImageTransform/>
+    <changeBounds
+        android:interpolator="@android:interpolator/decelerate_cubic"/>
+
+    <!-- clockwise circular path -->
+    <patternPathMotion
+        android:patternPathData="M 0 0 Q 1 0 1 1"/>
 
 </transitionSet>

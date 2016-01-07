@@ -33,11 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
-        android:layout_marginRight="-31dp"
-        android:layout_marginTop="8dp"
-        android:layout_alignTop="@+id/login_form"
-        android:layout_alignParentRight="false"
-        android:layout_alignRight="@+id/login_form" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/reg_form"
+        android:layout_marginTop="132dp"
+        />
 
     <include
         layout="@layout/reg_form"

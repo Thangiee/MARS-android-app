@@ -1,6 +1,6 @@
 package com.uta.mars.common
 
-import android.animation.Animator
+import android.animation.{TimeInterpolator, Animator}
 import android.animation.Animator.AnimatorListener
 import android.content.Context
 import android.transition.Transition.TransitionListener
@@ -36,6 +36,8 @@ trait ViewImplicits {
   implicit class RichView(v: View) {
     def centerX: Int = (v.getRight - v.getLeft) / 2
     def centerY: Int = (v.getBottom- v.getTop) / 2
+    def setVisible(): View = { v.setVisibility(View.VISIBLE); v }
+    def setInvisible(): View = { v.setVisibility(View.INVISIBLE); v }
   }
 }
 
@@ -70,6 +72,7 @@ trait AnimatorImplicits {
       override def onAnimationCancel(animation: Animator): Unit = {}
     })
 
+    def interpolator(value: TimeInterpolator): Animator = { animator.setInterpolator(value); animator }
     def onAnimationStart(f: Animator => Unit): Animator = { onAnimStarts = onAnimStarts :+ f; animator }
     def onAnimationEnd(f: Animator => Unit): Animator = { onAnimEnds = onAnimEnds :+ f; animator }
   }
