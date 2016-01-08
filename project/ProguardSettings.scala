@@ -10,7 +10,9 @@ object ProguardSettings {
     "-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry",
     "-dontwarn javax.xml.bind.DatatypeConverter",
     "-dontwarn ch.qos.logback.core.net.*",
-    "-dontwarn org.slf4j.**"
+    "-dontwarn org.slf4j.**",
+    "-dontwarn java.**",
+    "-dontwarn sun.misc.Unsafe"
   )
 
   val cache = Seq(
@@ -21,6 +23,7 @@ object ProguardSettings {
     "android",
     "com.google",
     "com.nineoldandroids",
-    "com.github"
+    "com.github",
+    "com.typesafe"
   )
 }

@@ -45,6 +45,7 @@ libraryDependencies ++= Seq(
   "org.scalaj"                      %% "scalaj-http"             % "2.2.0", // https://github.com/scalaj/scalaj-http
   "com.pixplicity.easyprefs"        %  "library"                 % "1.7",   // https://github.com/Pixplicity/EasyPreferences
   "com.typesafe.play"               %% "play-json"               % "2.4.0-M2", // https://www.playframework.com/documentation/2.3.x/ScalaJsonCombinators
+  "com.github.cb372"                %% "scalacache-guava"        % "0.7.5",
   "com.github.dmytrodanylyk"        %  "android-morphing-button" % "98a4986e56" // https://github.com/dmytrodanylyk/android-morphing-button
 )
 

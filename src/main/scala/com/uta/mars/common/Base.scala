@@ -4,9 +4,10 @@ import android.content.Context
 import android.os.Handler
 import com.github.nscala_time.time.DurationBuilder
 import com.github.nscala_time.time.Imports._
+import com.typesafe.scalalogging.LazyLogging
 import org.scaloid.common.AlertDialogBuilder
 
-private[common] trait Base {
+private[common] trait Base extends AnyRef with LazyLogging {
   private val handler = new Handler()
   private val repeatHandler = new Handler()
   protected implicit val session: SessionPref = SessionPref()
