@@ -20,7 +20,7 @@ case class Ok[A](data: A) extends ApiResponse[A]
 case class Err(code: Int, msg: String) extends ApiResponse[Nothing]
 
 trait Session {
-  def authnCookies: Seq[HttpCookie]
+  def cookies: Seq[HttpCookie]
 }
 
 object MarsApi extends AnyRef with LazyLogging {
@@ -48,7 +48,7 @@ object MarsApi extends AnyRef with LazyLogging {
     memoize(10.minutes)(Future(submit[Assistant](GET("/assistant"))))
 
   private def submit[R: Reads](request: HttpRequest)(implicit session: Session): ApiResponse[R] = {
-    Try(request.cookies(session.authnCookies).asString) match {
+    Try(request.cookies(session.cookies).asString) match {
       case Success(response) =>
         response.code match {
           case 200  => Ok(Json.parse(response.body).as[R])

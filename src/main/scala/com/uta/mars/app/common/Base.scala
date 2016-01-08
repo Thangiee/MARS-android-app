@@ -5,7 +5,6 @@ import android.os.Handler
 import com.github.nscala_time.time.DurationBuilder
 import com.github.nscala_time.time.Imports._
 import com.typesafe.scalalogging.LazyLogging
-import com.uta.mars.app.SessionPref
 import org.scaloid.common.AlertDialogBuilder
 
 private[common] trait Base extends AnyRef with LazyLogging {

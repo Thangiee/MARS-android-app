@@ -47,10 +47,10 @@ class LoginAct extends BaseActivity {
     delay(500.millis) {
       MarsApi.login(usernameEt.text.toString, passwordEt.text.toString).map {
         case Ok(cookies)    =>
-          super.session.saveSessionCookies(cookies)
+          super.session.saveCookies(cookies)
           // check that the logged in user is an assistant before proceeding
           if (isAssistantRole) goToHomeAct()
-          else { super.session.removeSessionCookies(); showInvalidRole() }
+          else { super.session.removeCookies(); showInvalidRole() }
         case Err(403, msg)  => showInvalidUserOrPass()
         case Err(498, msg)  => showNoConnection()
         case Err(code, msg) => showApiErrorDialog(code); runOnUiThread(loginBtn.morphToErrorBtn())
