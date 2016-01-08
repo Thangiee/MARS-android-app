@@ -1,8 +1,8 @@
-package com.uta.mars.common
+package com.uta.mars.app.common
 
 import android.content.Context
 import android.view.ViewGroup
-import org.scaloid.common._
+import org.scaloid.common.{TagUtil, TraitViewGroup}
 
 trait BaseViewGroup extends TraitViewGroup[ViewGroup] with Base with TagUtil {
   self: ViewGroup =>
@@ -10,4 +10,3 @@ trait BaseViewGroup extends TraitViewGroup[ViewGroup] with Base with TagUtil {
   override implicit val getCtx: Context = context
   override def basis: ViewGroup = self
 }
-

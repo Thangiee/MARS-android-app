@@ -9,7 +9,7 @@
 
     <include layout="@layout/toolbar"/>
 
-    <com.uta.mars.StopWatchView
+    <com.uta.mars.app.StopWatchView
         android:id="@+id/stop_watch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

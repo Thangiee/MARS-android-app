@@ -1,8 +1,8 @@
-package com.uta.mars
+package com.uta.mars.app
 
 import com.github.nscala_time.time.DurationBuilder
 
-import scala.concurrent.duration.{FiniteDuration, Duration}
+import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.language.implicitConversions
 
 package object common extends AnyRef with Implicits {

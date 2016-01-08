@@ -1,4 +1,4 @@
-package com.uta.mars
+package com.uta.mars.app
 
 import android.content.Context
 import android.graphics.{Canvas, Color, Paint}
@@ -7,11 +7,11 @@ import android.util.AttributeSet
 import android.view.View.MeasureSpec
 import com.github.adnansm.timelytextview.TimelyView
 import com.github.adnansm.timelytextview.model.NumberUtils
-import com.pnikosis.materialishprogress.ProgressWheel
-import com.uta.mars.common._
-import org.scaloid.common._
-
 import com.github.nscala_time.time.Imports._
+import com.pnikosis.materialishprogress.ProgressWheel
+import com.uta.mars.R
+import com.uta.mars.app.common._
+import org.scaloid.common._
 
 class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, attrs) with BaseViewGroup {
 

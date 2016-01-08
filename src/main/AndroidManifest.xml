@@ -19,7 +19,7 @@
         android:name=".MyApplication">
 
         <activity
-            android:name=".LoginAct"
+            android:name=".app.LoginAct"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -27,8 +27,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegistrationAct"/>
-        <activity android:name=".HomeAct"/>
+        <activity android:name=".app.RegistrationAct"/>
+        <activity android:name=".app.HomeAct"/>
 
     </application>
 </manifest>

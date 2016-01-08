@@ -1,4 +1,4 @@
-package com.uta.mars
+package com.uta.mars.app
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -7,10 +7,11 @@ import android.support.design.widget.Snackbar
 import android.view.View
 import com.dd.morphingbutton.impl.LinearProgressButton
 import com.github.clans.fab.FloatingActionButton
-import com.rengwuxian.materialedittext.MaterialEditText
-import com.uta.mars.common._
-import org.scaloid.common._
 import com.github.nscala_time.time.Imports._
+import com.rengwuxian.materialedittext.MaterialEditText
+import com.uta.mars.R
+import com.uta.mars.app.common._
+import org.scaloid.common._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}

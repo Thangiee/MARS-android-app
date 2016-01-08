@@ -1,8 +1,9 @@
-package com.uta.mars.common
+package com.uta.mars.app
 
 import java.net.HttpCookie
 
 import com.pixplicity.easyprefs.library.Prefs
+import com.uta.mars.api.Session
 import scala.collection.JavaConversions._
 
 import scala.util.Try

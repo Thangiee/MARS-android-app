@@ -1,4 +1,4 @@
-package com.uta.mars
+package com.uta.mars.app
 
 import android.os.Bundle
 import android.support.v7.widget.CardView
@@ -8,7 +8,8 @@ import android.widget.ImageView
 import com.dd.morphingbutton.impl.LinearProgressButton
 import com.github.clans.fab.FloatingActionButton
 import com.github.nscala_time.time.Imports._
-import com.uta.mars.common._
+import com.uta.mars.R
+import com.uta.mars.app.common._
 import org.scaloid.common._
 
 class RegistrationAct extends BaseActivity {

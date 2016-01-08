@@ -1,4 +1,4 @@
-package com.uta.mars.common
+package com.uta.mars.app.common
 
 import android.content.Context
 import android.support.v7.app.AppCompatActivity

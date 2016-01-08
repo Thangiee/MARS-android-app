@@ -1,13 +1,13 @@
-package com.uta.mars.common
+package com.uta.mars.app.common
 
-import android.animation.{TimeInterpolator, Animator}
 import android.animation.Animator.AnimatorListener
+import android.animation.{Animator, TimeInterpolator}
 import android.content.Context
 import android.transition.Transition.TransitionListener
-import android.transition.{TransitionInflater, Transition}
+import android.transition.{Transition, TransitionInflater}
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.{AnimationUtils, Animation}
+import android.view.animation.{Animation, AnimationUtils}
 import com.dd.morphingbutton.MorphingButton
 import com.dd.morphingbutton.impl.LinearProgressButton
 import com.uta.mars.R

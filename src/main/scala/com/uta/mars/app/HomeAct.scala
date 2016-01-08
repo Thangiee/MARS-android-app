@@ -1,13 +1,14 @@
-package com.uta.mars
+package com.uta.mars.app
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
-import android.view.{MenuItem, Menu}
+import android.view.{Menu, MenuItem}
 import com.github.clans.fab.FloatingActionButton
-import com.uta.mars.common._
-import org.scaloid.common._
 import com.github.nscala_time.time.Imports._
+import com.uta.mars.R
+import com.uta.mars.app.common._
+import org.scaloid.common._
 
 class HomeAct extends BaseActivity {
 
