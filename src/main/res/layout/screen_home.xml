@@ -25,9 +25,11 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="16dp"
+        fab:fab_progress_color="@color/primary"
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accent"
         fab:fab_colorRipple="@color/md_grey_700"
+        fab:fab_progress_showBackground="false"
     />
 
     <com.github.clans.fab.FloatingActionButton

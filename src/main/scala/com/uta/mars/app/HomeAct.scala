@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.{Menu, MenuItem}
 import com.github.clans.fab.FloatingActionButton
+import com.github.florent37.viewanimator.ViewAnimator
 import com.github.nscala_time.time.Imports._
 import com.uta.mars.R
 import com.uta.mars.app.common._
 import org.scaloid.common._
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class HomeAct extends BaseActivity {
 
@@ -25,13 +28,6 @@ class HomeAct extends BaseActivity {
     setSupportActionBar(toolbar)
     setTitle("Home")
 
-    Seq(profileFAB, clockInFAB, timeSheetFAB, clockOutFAB).foreach(_.hide(false))
-
-    // Make those FABs animate in from a left to right sequence
-    Seq(profileFAB, clockInFAB, timeSheetFAB).zip(1 to 3).foreach {
-      case (fab, i) => delay((i*250).millis)(fab.show(true))
-    }
-
     clockInFAB.onClick {
       stopWatch.reset()
       stopWatch.start()
@@ -44,6 +40,41 @@ class HomeAct extends BaseActivity {
       clockOutFAB.hide(true)
       delay(250.millis)(clockInFAB.show(true))
     }
+
+    profileFAB.onClick {
+      // While showing load animations, cache the assistant info beforehand
+      // for the Profile activity to show it almost instantly.
+      profileFAB.setProgress(5, true)
+      MarsApi.assistantInfo.map {
+        case Ok(_) => goToProfile()
+        case  _ => // todo: handle error
+      }
+
+      def goToProfile(): Unit = runOnUiThread {
+        ViewAnimator.animate(profileFAB)
+          .custom((fab: FloatingActionButton, value: Float) => fab.setProgress(value.toInt, false), 5, 100)
+          .accelerate()
+          .duration(500)
+          .start()
+
+        delay(600.millis)(startActivity[ProfileAct])
+      }
+    }
+  }
+
+  override def onResume(): Unit = {
+    super.onResume()
+    // Make those FABs pop in from a left to right sequence
+    Seq(profileFAB, clockInFAB, timeSheetFAB, clockOutFAB).foreach(_.hide(false))
+    Seq(profileFAB, clockInFAB, timeSheetFAB).zip(1 to 3).foreach {
+      case (fab, i) => delay((i*250).millis)(fab.show(true))
+    }
+  }
+
+  override def onPause(): Unit = {
+    profileFAB.hideProgress()
+    profileFAB.setProgress(0, false)
+    super.onPause()
   }
 
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
