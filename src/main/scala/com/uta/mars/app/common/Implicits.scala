@@ -1,34 +1,49 @@
 package com.uta.mars.app.common
 
 import android.animation.Animator.AnimatorListener
-import android.animation.{Animator, TimeInterpolator}
+import android.animation.{Animator, AnimatorInflater, TimeInterpolator}
 import android.content.Context
 import android.transition.Transition.TransitionListener
 import android.transition.{Transition, TransitionInflater}
-import android.util.AttributeSet
+import android.util.{AttributeSet, TypedValue}
 import android.view.View
 import android.view.animation.{Animation, AnimationUtils}
 import com.dd.morphingbutton.MorphingButton
 import com.dd.morphingbutton.impl.LinearProgressButton
+import com.github.florent37.viewanimator.AnimationListener.Update
 import com.uta.mars.R
 import org.scaloid.common._
 
+import scala.language.implicitConversions
+
 object Implicits extends Implicits
 object ResImplicits extends ResImplicits
+object UnitImplicits extends UnitImplicits
 object ViewImplicits extends ViewImplicits
+object ViewAnimatorImplicits extends ViewAnimatorImplicits
 object TransitionImplicits extends TransitionImplicits
 object AnimatorImplicits extends AnimatorImplicits
 object AttrImplicits extends AttrImplicits
 object MorphingBtnImplicits extends MorphingBtnImplicits
 
 trait Implicits extends AnyRef with ResImplicits with ViewImplicits with TransitionImplicits with AnimatorImplicits
-                               with AttrImplicits with MorphingBtnImplicits
+                               with AttrImplicits with MorphingBtnImplicits with UnitImplicits with ViewAnimatorImplicits
 
 trait ResImplicits {
   implicit class ResConversion(res: Int) {
     def r2str(implicit ctx: Context): String = ctx.getResources.getString(res)
     def r2anim(implicit ctx: Context): Animation = AnimationUtils.loadAnimation(ctx, res)
+    def r2animator(implicit ctx: Context): Animator = AnimatorInflater.loadAnimator(ctx, res)
     def r2Trans(implicit ctx: Context): Transition = TransitionInflater.from(ctx).inflateTransition(res)
+  }
+}
+
+trait UnitImplicits {
+  implicit class UnitConversion[T](value: T) {
+    def dipToPixels(implicit ctx: Context, num: Numeric[T]): Float = {
+      val metrics = ctx.getResources.getDisplayMetrics
+      TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, num.toFloat(value), metrics)
+    }
   }
 }
 
@@ -39,6 +54,10 @@ trait ViewImplicits {
     def setVisible(): View = { v.setVisibility(View.VISIBLE); v }
     def setInvisible(): View = { v.setVisibility(View.INVISIBLE); v }
   }
+}
+
+trait ViewAnimatorImplicits {
+  implicit def func2UpdateListener[V <: View](f: (V, Float) => Unit): Update[V] = (view: V, value: Float) => f(view, value)
 }
 
 trait TransitionImplicits {
@@ -75,6 +94,8 @@ trait AnimatorImplicits {
     def interpolator(value: TimeInterpolator): Animator = { animator.setInterpolator(value); animator }
     def onAnimationStart(f: Animator => Unit): Animator = { onAnimStarts = onAnimStarts :+ f; animator }
     def onAnimationEnd(f: Animator => Unit): Animator = { onAnimEnds = onAnimEnds :+ f; animator }
+
+    def target(view: View): Animator = { animator.setTarget(view); animator }
   }
 }
 
