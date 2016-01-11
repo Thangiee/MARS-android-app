@@ -46,7 +46,14 @@ libraryDependencies ++= Seq(
   "com.pixplicity.easyprefs"        %  "library"                 % "1.7",   // https://github.com/Pixplicity/EasyPreferences
   "com.typesafe.play"               %% "play-json"               % "2.4.0-M2", // https://www.playframework.com/documentation/2.3.x/ScalaJsonCombinators
   "com.github.cb372"                %% "scalacache-guava"        % "0.7.5",
-  "com.github.dmytrodanylyk"        %  "android-morphing-button" % "98a4986e56" // https://github.com/dmytrodanylyk/android-morphing-button
+  "com.github.dmytrodanylyk"        %  "android-morphing-button" % "98a4986e56", // https://github.com/dmytrodanylyk/android-morphing-button
+
+  "jp.satorufujiwara"    % "material-scrolling"           % "1.1.0",
+  "com.github.ksoichiro" % "android-observablescrollview" % "1.6.0",
+
+  "com.skocken"          % "efficientadapter.lib" % "2.0",
+  "com.makeramen"        % "roundedimageview"     % "2.2.1",
+  "com.github.florent37" % "viewanimator"         % "1.0.0"
 )
 
 run <<= run in Android
