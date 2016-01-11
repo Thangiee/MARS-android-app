@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jp.satorufujiwara.scrolling.MaterialScrollingLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/materialScrollingLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:ms_flexible_height="240dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        >
+
+        <net.grobas.view.MovingImageView
+            android:id="@+id/bg_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/uta"
+            app:miv_load_on_create="true"
+            app:miv_max_relative_size="1.5"
+            app:miv_min_relative_offset=".6"
+            app:miv_start_delay="1000"
+            app:miv_repetitions="-1"
+            app:miv_speed="10" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/face_img"
+            android:src="@drawable/ic_launcher"
+            android:layout_height="82dp"
+            android:layout_width="82dp"
+            android:layout_centerInParent="true"
+            app:riv_corner_radius="41dip"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"
+            />
+
+    </RelativeLayout>
+
+
+    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <View
+        android:id="@+id/overlayView"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@color/primary"
+        android:alpha="0"/>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="206dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="24dp"
+        android:src="@drawable/ic_edit"
+        app:fab_colorNormal="@color/accent"
+        app:fab_colorPressed="@color/accent"
+        app:fab_colorRipple="@color/md_grey_700"
+        />
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="156dp"
+        android:text="First Last"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="72dp"
+        android:textColor="@color/md_white"
+        android:textSize="34sp"
+        />
+
+</jp.satorufujiwara.scrolling.MaterialScrollingLayout>

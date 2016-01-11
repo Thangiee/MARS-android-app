@@ -12,7 +12,8 @@ object ProguardSettings {
     "-dontwarn ch.qos.logback.core.net.*",
     "-dontwarn org.slf4j.**",
     "-dontwarn java.**",
-    "-dontwarn sun.misc.Unsafe"
+    "-dontwarn sun.misc.Unsafe",
+    "-keepclassmembers public class * extends com.skocken.efficientadapter.lib.viewholder.EfficientViewHolder {public <init>(...);}"
   )
 
   val cache = Seq(
@@ -24,6 +25,7 @@ object ProguardSettings {
     "com.google",
     "com.nineoldandroids",
     "com.github",
+    "com/github/adnansm/timelytextview",
     "com.typesafe"
   )
 }

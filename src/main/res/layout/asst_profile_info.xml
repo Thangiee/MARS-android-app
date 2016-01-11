@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/md_grey_50">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="36dp"/>
+
+    <!-- Email -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="72dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_email"
+            style="@style/ListIcon"
+            />
+
+        <LinearLayout
+            android:id="@+id/textview_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ListLinearLayout">
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textAppearance="@style/PrimaryTitle"/>
+
+            <TextView
+                android:id="@+id/subtitle_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="E-mail"
+                android:textAppearance="@style/SecondaryTile"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider"/>
+
+    <!-- net id -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_label"
+            style="@style/ListIcon"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ListLinearLayout">
+
+            <TextView
+                android:id="@+id/tv_net_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textAppearance="@style/PrimaryTitle"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Net Id"
+                android:textAppearance="@style/SecondaryTile"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- emp id -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ListLinearLayout">
+
+        <TextView
+            android:id="@+id/tv_emp_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textAppearance="@style/PrimaryTitle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Employee Id"
+            android:textAppearance="@style/SecondaryTile"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/divider"/>
+
+    <!-- pay rate -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_money"
+            style="@style/ListIcon"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ListLinearLayout">
+
+            <TextView
+                android:id="@+id/tv_pay_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textAppearance="@style/PrimaryTitle"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pay Rate"
+                android:textAppearance="@style/SecondaryTile"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider"/>
+
+    <!-- job -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="72dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info"
+            style="@style/ListIcon"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ListLinearLayout">
+
+            <TextView
+                android:id="@+id/tv_job"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textAppearance="@style/PrimaryTitle"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Job"
+                android:textAppearance="@style/SecondaryTile"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- department -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ListLinearLayout">
+
+        <TextView
+            android:id="@+id/tv_department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textAppearance="@style/PrimaryTitle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Department"
+            android:textAppearance="@style/SecondaryTile"/>
+
+    </LinearLayout>
+
+    <!-- title -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ListLinearLayout">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textAppearance="@style/PrimaryTitle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textAppearance="@style/SecondaryTile"/>
+
+    </LinearLayout>
+
+    <!-- title code -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ListLinearLayout">
+
+        <TextView
+            android:id="@+id/tv_title_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textAppearance="@style/PrimaryTitle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title Code"
+            android:textAppearance="@style/SecondaryTile"/>
+
+    </LinearLayout>
+</LinearLayout>
