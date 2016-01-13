@@ -60,7 +60,7 @@ class StopWatchView(ctx: Context, attrs: AttributeSet) extends CardView(ctx, att
 
     // all digits should have same w and h
     val digitW = sTv.getMeasuredWidth
-    val digitH = sTv.getMeasuredHeight
+    val digitH = (sTv.getMeasuredHeight * 1.05).toInt // fix clipping at the bottom of the digit
 
     // top padding to center the digits vertically
     val topPadding = (h - digitH) / 2
