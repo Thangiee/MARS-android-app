@@ -46,8 +46,9 @@ class HomeAct extends BaseActivity {
       // for the Profile activity to show it almost instantly.
       profileFAB.setProgress(5, true)
       MarsApi.assistantInfo.map {
-        case Ok(_) => goToProfile()
-        case  _ => // todo: handle error
+        case Ok(_)        => goToProfile()
+        case Err(403, _)  => runOnUiThread(profileFAB.hideProgress()); showReLoginDialog()
+        case Err(code, _) => runOnUiThread(profileFAB.hideProgress()); showApiErrorDialog(code)
       }
 
       def goToProfile(): Unit = runOnUiThread {
