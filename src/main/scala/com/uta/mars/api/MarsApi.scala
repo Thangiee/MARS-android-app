@@ -6,9 +6,8 @@ import com.typesafe.scalalogging.LazyLogging
 import play.api.libs.json.{Json, Reads}
 import scala.util.{Failure, Success, Try}
 import scalacache.guava.GuavaCache
-import scalaj.http.{Http, HttpRequest}
+import scalaj.http.{HttpResponse, Http, HttpRequest}
 import scalacache._
-import memoization._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -41,20 +40,26 @@ object MarsApi extends AnyRef with LazyLogging {
     }
   }
 
-  def accountInfo(implicit session: Session): Future[ApiResponse[Account]] =
-    memoize(10.minutes)(Future(submit[Account](GET("/account"))))
+  def accountInfo(implicit session: Session): Future[ApiResponse[Account]] = cachingCall[Account](GET("/account"))
 
-  def assistantInfo(implicit session: Session): Future[ApiResponse[Assistant]] =
-    memoize(10.minutes)(Future(submit[Assistant](GET("/assistant"))))
+  def assistantInfo(implicit session: Session): Future[ApiResponse[Assistant]] = cachingCall[Assistant](GET("/assistant"))
 
-  private def submit[R: Reads](request: HttpRequest)(implicit session: Session): ApiResponse[R] = {
-    Try(request.cookies(session.cookies).asString) match {
-      case Success(response) =>
-        response.code match {
-          case 200  => Ok(Json.parse(response.body).as[R])
-          case code => logger.info(s"${response.code}-${response.body}"); Err(code, response.body)
-        }
-      case Failure(ex)       => exceptionToError(ex)
+  /**
+   * This method will check if the response to the request has been cached to avoid unnecessary trips over network.
+   * If the the response is not cached, the request happens and the result is cached on status code 200 for future usage.
+   */
+  private def cachingCall[R: Reads](request: HttpRequest)(implicit session: Session): Future[ApiResponse[R]] = {
+    def doRequestCall(): ApiResponse[R] = {
+      Try(request.cookies(session.cookies).asString) match {
+        case Success(HttpResponse(body, 200, _))  => sync.cachingWithTTL(request)(10.minutes)(body); Ok(Json.parse(body).as[R])
+        case Success(HttpResponse(body, code, _)) => logger.info(s"$code -> $body"); Err(code, body)
+        case Failure(ex)                          => exceptionToError(ex)
+      }
+    }
+
+    scalacache.get[String](request).map {
+      case Some(cacheHit) => Ok(Json.parse(cacheHit).as[R]) // cache hit
+      case None           => doRequestCall() // cache missed; do the http request to get the data.
     }
   }
 
