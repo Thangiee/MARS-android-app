@@ -49,6 +49,7 @@ class QrCodeScanAct extends BaseActivity with OnQRCodeReadListener {
 
   override def onQRCodeRead(code: String, pointFs: Array[PointF]): Unit = {
     logger.debug(s"QR code scanner read: $code")
+    play(R.raw.music_marimba_chord.r2Uri)
     val returnIntent = new Intent()
     returnIntent.putExtra(QR_CODE_KEY, code)
     setResult(Activity.RESULT_OK, returnIntent)

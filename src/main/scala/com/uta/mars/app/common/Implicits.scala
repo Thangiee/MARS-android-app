@@ -7,6 +7,7 @@ import android.animation.{Animator, AnimatorInflater, TimeInterpolator}
 import android.content.{Intent, Context}
 import android.graphics.{Bitmap, BitmapFactory}
 import android.graphics.drawable.{Drawable, BitmapDrawable}
+import android.net.Uri
 import android.transition.Transition.TransitionListener
 import android.transition.{Transition, TransitionInflater}
 import android.util.{AttributeSet, TypedValue}
@@ -59,6 +60,7 @@ trait ResImplicits {
     def r2anim(implicit ctx: Context): Animation = AnimationUtils.loadAnimation(ctx, res)
     def r2animator(implicit ctx: Context): Animator = AnimatorInflater.loadAnimator(ctx, res)
     def r2Trans(implicit ctx: Context): Transition = TransitionInflater.from(ctx).inflateTransition(res)
+    def r2Uri(implicit ctx: Context): Uri = Uri.parse("android.resource://" + ctx.getPackageName() + "/" + res)
   }
 }
 

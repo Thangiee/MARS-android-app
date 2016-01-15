@@ -62,6 +62,8 @@ class FaceDetectionAct extends BaseActivity with Woody.ActivityListener with Woo
   }
 
   override def onPictureTaken(data: Array[Byte], camera: Camera): Unit = {
+    play(R.raw.music_marimba_chord.r2Uri)
+
     val croppedFace = new FaceCropper().getCroppedImage(data.toBitmap)
     val view = getLayoutInflater.inflate(R.layout.image_view_container, null)
     view.find[ImageView](R.id.image_view).setImageDrawable(croppedFace.toDrawable)
@@ -73,8 +75,8 @@ class FaceDetectionAct extends BaseActivity with Woody.ActivityListener with Woo
         camera.startFaceDetection()
       })
       positiveButton("Yes", {
-        setResult(Activity.RESULT_OK, new Intent().putExtra(FACE_IMG_KEY, croppedFace.toBytes))
-        finish()
+        FaceDetectionAct.this.setResult(Activity.RESULT_OK, new Intent().putExtra(FACE_IMG_KEY, croppedFace.toBytes))
+        FaceDetectionAct.this.finish()
       })
     }.show()
   }
