@@ -54,7 +54,8 @@ libraryDependencies ++= Seq(
   "com.skocken"          % "efficientadapter.lib" % "2.0",
   "com.makeramen"        % "roundedimageview"     % "2.2.1",
   "com.github.florent37" % "viewanimator"         % "1.0.0",
-  "com.github.naman14"   % "TimelyTextView"       % "1.0"
+  "com.github.naman14"   % "TimelyTextView"       % "1.0",
+  "com.dlazaro66.qrcodereaderview" % "qrcodereaderview" % "1.0.0"
 )
 
 run <<= run in Android

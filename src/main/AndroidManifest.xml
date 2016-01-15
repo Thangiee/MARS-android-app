@@ -11,6 +11,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:label="@string/app_name"
@@ -30,6 +31,7 @@
         <activity android:name=".app.RegistrationAct"/>
         <activity android:name=".app.HomeAct"/>
         <activity android:name=".app.ProfileAct"/>
+        <activity android:name=".app.QrCodeScanAct"/>
 
     </application>
 </manifest>

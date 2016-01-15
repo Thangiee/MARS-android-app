@@ -1,5 +1,7 @@
 package com.uta.mars.app
 
+import java.util.UUID
+
 import com.github.nscala_time.time.DurationBuilder
 
 import scala.concurrent.duration.{Duration, FiniteDuration}
@@ -11,6 +13,9 @@ package object common extends AnyRef with Implicits {
   val Ok      = com.uta.mars.api.Ok
   val Err     = com.uta.mars.api.Err
   val MarsApi = com.uta.mars.api.MarsApi
+
+  // constants
+  val QR_CODE_KEY = UUID.randomUUID().toString
 
   // convert nscala-time to scala.concurrent.duration when necessary
   implicit def concurrentFiniteDurationFrom(d: DurationBuilder): FiniteDuration =

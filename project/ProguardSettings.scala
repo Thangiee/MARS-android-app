@@ -14,6 +14,8 @@ object ProguardSettings {
     "-dontwarn java.**",
     "-dontwarn sun.misc.Unsafe",
     "-keep class com.noveogroup.android.log.LoggerManager { *; }",
+    "-keep class com.google.zxing.** { *; }",
+    "-keep class com.uta.mars.app.** { *; }",
     "-keepclassmembers public class * extends com.skocken.efficientadapter.lib.viewholder.EfficientViewHolder {public <init>(...);}"
   )
 
@@ -25,6 +27,7 @@ object ProguardSettings {
     "scala.collection",
     "android",
     "com.google",
+    "com.google.zxing",
     "com.nineoldandroids",
     "com.github",
     "com.github.adnansm.timelytextview",
