@@ -16,6 +16,7 @@ package object common extends AnyRef with Implicits {
 
   // constants
   val QR_CODE_KEY = UUID.randomUUID().toString
+  val FACE_IMG_KEY = UUID.randomUUID().toString
 
   // convert nscala-time to scala.concurrent.duration when necessary
   implicit def concurrentFiniteDurationFrom(d: DurationBuilder): FiniteDuration =

@@ -1,8 +1,12 @@
 package com.uta.mars.app.common
 
+import java.io.ByteArrayOutputStream
+
 import android.animation.Animator.AnimatorListener
 import android.animation.{Animator, AnimatorInflater, TimeInterpolator}
-import android.content.Context
+import android.content.{Intent, Context}
+import android.graphics.{Bitmap, BitmapFactory}
+import android.graphics.drawable.{Drawable, BitmapDrawable}
 import android.transition.Transition.TransitionListener
 import android.transition.{Transition, TransitionInflater}
 import android.util.{AttributeSet, TypedValue}
@@ -28,6 +32,26 @@ object MorphingBtnImplicits extends MorphingBtnImplicits
 
 trait Implicits extends AnyRef with ResImplicits with ViewImplicits with TransitionImplicits with AnimatorImplicits
                                with AttrImplicits with MorphingBtnImplicits with UnitImplicits with ViewAnimatorImplicits
+                               with IntentImplicits with ImageImplicits
+
+trait IntentImplicits {
+  implicit class IntentOp(i: Intent) {
+    def args(arguments: (String, Any)*): Intent = {
+      for ((k, v) ← arguments) {
+        v match {
+          case v: String        => i.putExtra(k, v)
+          case v: Int           => i.putExtra(k, v)
+          case v: Double        => i.putExtra(k, v)
+          case v: Float         => i.putExtra(k, v)
+          case v: Boolean       => i.putExtra(k, v)
+          case v: Serializable  => i.putExtra(k, v)
+          case _                => throw new IllegalArgumentException("Unsupported type")
+        }
+      }
+      i
+    }
+  }
+}
 
 trait ResImplicits {
   implicit class ResConversion(res: Int) {
@@ -43,6 +67,22 @@ trait UnitImplicits {
     def dipToPixels(implicit ctx: Context, num: Numeric[T]): Float = {
       val metrics = ctx.getResources.getDisplayMetrics
       TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, num.toFloat(value), metrics)
+    }
+  }
+}
+
+trait ImageImplicits {
+  implicit class BytesConversion(bytes: Array[Byte]) {
+    def toDrawable(implicit ctx: Context): Drawable = new BitmapDrawable(ctx.getResources, BitmapFactory.decodeByteArray(bytes, 0, bytes.length))
+    def toBitmap(implicit ctx: Context): Bitmap = BitmapFactory.decodeByteArray(bytes , 0, bytes.length)
+  }
+
+  implicit class BitmapConversion(bitmap: Bitmap) {
+    def toDrawable(implicit ctx: Context): Drawable = new BitmapDrawable(ctx.getResources, bitmap)
+    def toBytes: Array[Byte] = {
+      val stream = new ByteArrayOutputStream()
+      bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+      stream.toByteArray
     }
   }
 }
