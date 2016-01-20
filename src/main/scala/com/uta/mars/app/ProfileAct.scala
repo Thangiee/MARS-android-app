@@ -49,12 +49,12 @@ class ProfileAct extends BaseActivity {
     scrollingLayout.addBehavior(asstNameTv, new NameBehavior())
     scrollingLayout.addBehavior(editFAB, new FabBehavior())
 
-    MarsApi.assistantInfo.map {
-      case Ok(asst)       => initData(asst)
-      case Err(code, msg) =>
+    MarsApi.assistantInfo
+      .map(asst => initData(asst))
+      .badMap { case Err(code, msg) =>
         logger.warn(s"Expected MarsApi.assistantInfo to be cached by HomeAct but got: $code, $msg")
         showApiErrorDialog(code)
-    }
+      }
 
     editFAB.onClick {
       // todo: implement

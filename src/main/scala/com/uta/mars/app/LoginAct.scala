@@ -45,16 +45,17 @@ class LoginAct extends BaseActivity {
   private def doLogin(): Unit = {
     fillProgressBar(0, 50, 500.millis) // fill progress bar from 0% to 50%
     delay(500.millis) {
-      MarsApi.login(usernameEt.text.toString, passwordEt.text.toString).map {
-        case Ok(cookies)    =>
-          super.session.saveCookies(cookies)
+      MarsApi.login(usernameEt.text.toString, passwordEt.text.toString)
+        .map { cookies =>
+          session.saveCookies(cookies)
           // check that the logged in user is an assistant before proceeding
           if (isAssistantRole) goToHomeAct()
           else { super.session.removeCookies(); showInvalidRole() }
-        case Err(403, msg)  => showInvalidUserOrPass()
-        case Err(498, msg)  => showNoConnection()
-        case Err(code, msg) => showApiErrorDialog(code); runOnUiThread(loginBtn.morphToErrorBtn())
-      }
+        }.badMap {
+          case Err(403, msg)  => showInvalidUserOrPass()
+          case Err(498, msg)  => showNoConnection()
+          case Err(code, msg) => showApiErrorDialog(code); runOnUiThread(loginBtn.morphToErrorBtn())
+        }
     }
 
     def goToHomeAct(): Unit = runOnUiThread {
@@ -67,9 +68,9 @@ class LoginAct extends BaseActivity {
     }
 
     def isAssistantRole: Boolean = {
-      Await.result(MarsApi.accountInfo, 10.seconds) match {
-        case Ok(account) => if (account.role.toLowerCase == "assistant") true else false
-        case _           => false
+      Await.result(MarsApi.accountInfo.value, 10.seconds) match {
+        case Good(account) => if (account.role.toLowerCase == "assistant") true else false
+        case _             => false
       }
     }
 

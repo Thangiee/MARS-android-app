@@ -10,9 +10,10 @@ import scala.language.implicitConversions
 package object common extends AnyRef with Implicits {
   type Session = com.uta.mars.api.Session
 
-  val Ok      = com.uta.mars.api.Ok
   val Err     = com.uta.mars.api.Err
   val MarsApi = com.uta.mars.api.MarsApi
+  val Good    = org.scalactic.Good
+  val Bad     = org.scalactic.Bad
 
   // constants
   val QR_CODE_KEY = UUID.randomUUID().toString

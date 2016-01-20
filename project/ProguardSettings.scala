@@ -6,6 +6,7 @@ object ProguardSettings {
     "-dontpreverify",
     "-dontnote **",
     "-dontwarn org.scaloid.**",
+    "-dontwarn org.scalactic.**",
     "-dontwarn com.makeramen.**",
     "-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry",
     "-dontwarn javax.xml.bind.DatatypeConverter",

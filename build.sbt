@@ -55,7 +55,8 @@ libraryDependencies ++= Seq(
   "com.makeramen"        % "roundedimageview"     % "2.2.1",
   "com.github.florent37" % "viewanimator"         % "1.0.0",
   "com.github.naman14"   % "TimelyTextView"       % "1.0",
-  "com.dlazaro66.qrcodereaderview" % "qrcodereaderview" % "1.0.0"
+  "com.dlazaro66.qrcodereaderview" % "qrcodereaderview" % "1.0.0",
+  "org.scalactic" %% "scalactic" % "2.2.6"
 )
 
 run <<= run in Android

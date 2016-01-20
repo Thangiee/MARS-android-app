@@ -45,11 +45,12 @@ class HomeAct extends BaseActivity {
       // While showing load animations, cache the assistant info beforehand
       // for the Profile activity to show it almost instantly.
       profileFAB.setProgress(5, true)
-      MarsApi.assistantInfo.map {
-        case Ok(_)        => goToProfile()
-        case Err(403, _)  => runOnUiThread(profileFAB.hideProgress()); showReLoginDialog()
-        case Err(code, _) => runOnUiThread(profileFAB.hideProgress()); showApiErrorDialog(code)
-      }
+      MarsApi.assistantInfo
+        .map(_ => goToProfile())
+        .badMap {
+          case Err(403, _)  => runOnUiThread(profileFAB.hideProgress()); showReLoginDialog()
+          case Err(code, _) => runOnUiThread(profileFAB.hideProgress()); showApiErrorDialog(code)
+        }
 
       def goToProfile(): Unit = runOnUiThread {
         ViewAnimator.animate(profileFAB)
