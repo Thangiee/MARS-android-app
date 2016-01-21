@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.hardware.Camera
 import android.hardware.Camera.{CameraInfo, Face, PictureCallback}
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore.Images
 import android.support.v7.widget.Toolbar
 import android.view.{MenuItem, Surface, SurfaceHolder, SurfaceView}
 import android.widget.ImageView
@@ -74,7 +76,8 @@ class FaceDetectionAct extends BaseActivity with Woody.ActivityListener with Woo
         camera.startFaceDetection()
       })
       positiveButton("Yes", {
-        FaceDetectionAct.this.setResult(Activity.RESULT_OK, new Intent().putExtra(FACE_IMG_KEY, croppedFace.toBytes))
+        val uri = Uri.parse(Images.Media.insertImage(ctx.getContentResolver, croppedFace, "face", null))
+        FaceDetectionAct.this.setResult(Activity.RESULT_OK, new Intent().putExtra(FACE_IMG_KEY, uri))
         FaceDetectionAct.this.finish()
       })
     }.show()
