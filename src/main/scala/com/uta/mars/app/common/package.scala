@@ -16,8 +16,9 @@ package object common extends AnyRef with Implicits {
   val Bad     = org.scalactic.Bad
 
   // constants
-  val QR_CODE_KEY = UUID.randomUUID().toString
-  val FACE_IMG_KEY = UUID.randomUUID().toString
+  val UUID_KEY      = UUID.randomUUID().toString
+  val COMP_ID_KEY   = UUID.randomUUID().toString
+  val FACE_IMG_KEY  = UUID.randomUUID().toString
 
   // convert nscala-time to scala.concurrent.duration when necessary
   implicit def concurrentFiniteDurationFrom(d: DurationBuilder): FiniteDuration =
