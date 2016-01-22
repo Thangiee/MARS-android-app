@@ -29,6 +29,12 @@ final case class FutureOr[G, B](future: Future[Or[G, B]])(implicit ec: Execution
     }
   )
 
+  def merge[T >: G](implicit ev: B <:< T): Future[T] = {
+    future.map {
+      case Good(g) => g
+      case Bad(b) => ev.apply(b)
+    }
+  }
 }
 
 object FutureOr {

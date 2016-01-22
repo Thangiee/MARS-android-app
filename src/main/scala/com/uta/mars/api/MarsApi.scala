@@ -4,15 +4,15 @@ import java.net.{ConnectException, HttpCookie, SocketTimeoutException}
 
 import com.typesafe.scalalogging.LazyLogging
 import org.scalactic._
-import play.api.libs.json.{Json, Reads}
-import scala.util.{Failure, Success, Try}
-import scalacache.guava.GuavaCache
-import scalaj.http.{HttpResponse, Http, HttpRequest}
-import scalacache._
+import play.api.libs.json.{JsNull, JsValue, Json}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration._
+import scala.util.{Failure, Success, Try}
+import scalacache._
+import scalacache.guava.GuavaCache
+import scalaj.http.{Http, HttpRequest, HttpResponse, MultiPart}
 
 case class Err(code: Int, msg: String)
 
@@ -41,26 +41,49 @@ object MarsApi extends AnyRef with LazyLogging {
     FutureOr(request)
   }
 
-  def accountInfo(implicit session: Session): FutureOr[Account, Err] = cachingCall[Account](GET("/account"))
+  def accountInfo(ttl: Duration=20.minutes)(implicit sess: Session): FutureOr[Account, Err] =
+    call(GET("/account"), ttl).map(_.as[Account])
 
-  def assistantInfo(implicit session: Session): FutureOr[Assistant, Err] = cachingCall[Assistant](GET("/assistant"))
+  def assistantInfo(ttl: Duration=20.minutes)(implicit sess: Session): FutureOr[Assistant, Err] =
+    call(GET("/assistant"), ttl).map(_.as[Assistant])
+
+  def clockIn(compId: Option[String]=None)(implicit sess: Session): FutureOr[Unit, Err] =
+    call(POST("/records/clock-in").postForm(Seq("computerid" -> compId.getOrElse("")))).map(_ => Unit)
+
+  def clockOut(compId: Option[String]=None)(implicit sess: Session): FutureOr[Unit, Err] =
+    call(POST("/records/clock-out").postForm(Seq("computerid" -> compId.getOrElse("")))).map(_ => Unit)
+
+  def facialRecognition(img: Array[Byte])(implicit sess: Session): FutureOr[RecognitionResult, Err] =
+    call(POST("/face/recognition").postMulti(MultiPart("img", "face.png", "image/png", img))).map(_.as[RecognitionResult])
+
+  def verifyUUID(uuid: String)(implicit sess: Session): FutureOr[Unit, Err] =
+    call(GET(s"/register-uuid/verify/$uuid")).map(_ => Unit)
+
+  def recordsFromThisPayPeriod(ttl: Duration=20.seconds)(implicit sess: Session): FutureOr[Records, Err] =
+    call(GET("/records?filter=pay-period"), ttl).map(_.as[Records])
+
 
   /**
    * This method will check if the response to the request has been cached to avoid unnecessary trips over network.
-   * If the the response is not cached, the request happens and the result is cached on status code 200 for future usage.
+   * If the the response is not cached, the request happens and the result is cached on status code 200 and ttl is > 0.
    */
-  private def cachingCall[R: Reads](request: HttpRequest)(implicit session: Session): FutureOr[R, Err] = {
-    def doRequestCall(): Or[R, Err] = {
-      Try(request.cookies(session.cookies).asString) match {
-        case Success(HttpResponse(body, 200, _))  => sync.cachingWithTTL(request)(10.minutes)(body); Good(Json.parse(body).as[R])
-        case Success(HttpResponse(body, code, _)) => logger.info(s"$code -> $body"); Bad(Err(code, body))
-        case Failure(ex)                          => Bad(exceptionToError(ex))
+  private def call(request: HttpRequest, ttl: Duration=0.milli)(implicit sess: Session): FutureOr[JsValue, Err] = {
+    def doRequestCall(): Or[JsValue, Err] = {
+      Try(request.cookies(sess.cookies).asString) match {
+        case Success(HttpResponse(body, 200, _))  =>
+          logger.info(s"Call successful: 200 -> $body")
+          if (ttl.toMillis != 0) sync.cachingWithTTL(request.url)(ttl)(body)
+          Good(Try(Json.parse(body)).getOrElse(JsNull))
+        case Success(HttpResponse(body, code, _)) =>
+          logger.info(s"Call failure: $code -> $body")
+          Bad(Err(code, body))
+        case Failure(ex) => Bad(exceptionToError(ex))
       }
     }
 
     FutureOr(
-      scalacache.get[String](request).map {
-        case Some(cacheHit) => Good(Json.parse(cacheHit).as[R]) // cache hit
+      scalacache.get[String](request.url).map {
+        case Some(cacheHit) => Good(Json.parse(cacheHit)) // cache hit
         case None           => doRequestCall() // cache missed; do the http request to get the data.
       }
     )

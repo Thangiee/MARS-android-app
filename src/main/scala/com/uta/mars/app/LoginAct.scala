@@ -68,7 +68,7 @@ class LoginAct extends BaseActivity {
     }
 
     def isAssistantRole: Boolean = {
-      Await.result(MarsApi.accountInfo.value, 10.seconds) match {
+      Await.result(MarsApi.accountInfo().value, 10.seconds) match {
         case Good(account) => if (account.role.toLowerCase == "assistant") true else false
         case _             => false
       }
