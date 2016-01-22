@@ -29,6 +29,7 @@ class LoginAct extends BaseActivity {
 
     loginBtn.morphToNormalBtn(R.string.login.r2str)
     loginBtn.onClick { (v: View) =>
+      MarsApi.clearCache()
       loginBtn.morphToProgress(R.color.material_grey_300.r2Color, R.color.md_light_blue_500.r2Color, 5, 300, 10, 500)
       delay(500.millis)(doLogin())
     }

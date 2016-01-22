@@ -32,7 +32,7 @@ object MarsApi extends AnyRef with LazyLogging {
       Try(POST("/session/login").auth(username, password).asString) match {
         case Success(response) =>
           response.code match {
-            case 200 => scalacache.removeAll(); Good(response.cookies)
+            case 200 => Good(response.cookies)
             case code => logger.info(s"${response.code}-${response.body}"); Bad(Err(code, response.body))
           }
         case Failure(ex) => Bad(exceptionToError(ex))
@@ -40,6 +40,8 @@ object MarsApi extends AnyRef with LazyLogging {
     }
     FutureOr(request)
   }
+
+  def clearCache(): Future[Unit] = scalacache.removeAll()
 
   def accountInfo(ttl: Duration=20.minutes)(implicit sess: Session): FutureOr[Account, Err] =
     call(GET("/account"), ttl).map(_.as[Account])
