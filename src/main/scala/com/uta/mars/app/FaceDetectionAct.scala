@@ -71,6 +71,7 @@ class FaceDetectionAct extends BaseActivity with Woody.ActivityListener with Woo
 
     new AlertDialogBuilder("Is this correct?") {
       setView(view)
+      setCancelable(false)
       negativeButton("Try again", {
         camera.startPreview()
         camera.startFaceDetection()

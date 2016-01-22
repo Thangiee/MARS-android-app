@@ -41,7 +41,7 @@ class HomeAct extends BaseActivity {
 
       def onYesBtnClick(): Unit = {
         MarsApi.emailTimeSheet()
-          .map(_ => Snackbar.make(find(R.id.root), "Email sent. I may take up to a few minute to arrive.", 5000).show())
+          .map(_ => Snackbar.make(find(R.id.root), "Email sent. I may take up to a few minutes to arrive.", 5000).show())
           .badMap(err => showApiErrorDialog(err.code))
       }
     }
