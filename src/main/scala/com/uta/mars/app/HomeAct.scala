@@ -3,8 +3,9 @@ package com.uta.mars.app
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.Toolbar
-import android.view.{Menu, MenuItem}
+import android.view.{View, Menu, MenuItem}
 import com.github.clans.fab.FloatingActionButton
 import com.github.florent37.viewanimator.ViewAnimator
 import com.github.nscala_time.time.Imports._
@@ -31,6 +32,19 @@ class HomeAct extends BaseActivity {
     setTitle("Home")
 
     Seq(profileFAB, clockInFAB, timeSheetFAB, clockOutFAB).foreach(_.hide(false))
+
+    timeSheetFAB.onClick {
+      new AlertDialogBuilder("Time Sheet", s"Do you want your time sheet of the current pay period to be sent to your email?") {
+        positiveButton("Yes", onYesBtnClick())
+        negativeButton("No")
+      }.show()
+
+      def onYesBtnClick(): Unit = {
+        MarsApi.emailTimeSheet()
+          .map(_ => Snackbar.make(find(R.id.root), "Email sent. I may take up to a few minute to arrive.", 5000).show())
+          .badMap(err => showApiErrorDialog(err.code))
+      }
+    }
 
     clockInFAB.onClick {
       clockInFAB.setProgress(5, true)

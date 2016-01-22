@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:swv="http://schemas.android.com/apk/res/com.uta.mars"
                 xmlns:fab="http://schemas.android.com/apk/res/com.uta.mars"
+                android:id="@+id/root"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/screen_gray_bg"
->
+                android:background="@color/screen_gray_bg">
 
     <include layout="@layout/toolbar"/>
 

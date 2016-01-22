@@ -64,6 +64,14 @@ object MarsApi extends AnyRef with LazyLogging {
   def recordsFromThisPayPeriod(ttl: Duration=20.seconds)(implicit sess: Session): FutureOr[Records, Err] =
     call(GET("/records?filter=pay-period"), ttl).map(_.as[Records])
 
+  def emailTimeSheet()(implicit sess: Session): FutureOr[Unit, Err] = {
+    import com.github.nscala_time.time.Imports._
+    val today = LocalDate.now()
+    val (y, m) = (today.getYear, today.getMonthOfYear)
+
+    if (today.getDayOfMonth <= 15) call(GET(s"/time-sheet/first-half-month?year=$y&month=$m")).map(_ => Unit)
+    else                           call(GET(s"/time-sheet/second-half-month?year=$y&month=$m")).map(_ => Unit)
+  }
 
   /**
    * This method will check if the response to the request has been cached to avoid unnecessary trips over network.
@@ -74,7 +82,7 @@ object MarsApi extends AnyRef with LazyLogging {
       Try(request.cookies(sess.cookies).asString) match {
         case Success(HttpResponse(body, 200, _))  =>
           logger.info(s"Call successful: 200 -> $body")
-          if (ttl.toMillis != 0) sync.cachingWithTTL(request.url)(ttl)(body)
+          if (ttl.toMillis > 0) sync.cachingWithTTL(request.url)(ttl)(body)
           Good(Try(Json.parse(body)).getOrElse(JsNull))
         case Success(HttpResponse(body, code, _)) =>
           logger.info(s"Call failure: $code -> $body")
