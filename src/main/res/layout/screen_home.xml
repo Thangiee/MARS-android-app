@@ -42,7 +42,10 @@
         android:layout_centerHorizontal="true"
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accent"
-        fab:fab_colorRipple="@color/md_grey_700"/>
+        fab:fab_colorRipple="@color/md_grey_700"
+        fab:fab_progress_color="@color/primary"
+        fab:fab_progress_showBackground="false"
+        />
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab_clock_out"
@@ -52,6 +55,8 @@
         android:src="@drawable/ic_alarm_off_white_24dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        fab:fab_progress_color="@color/primary"
+        fab:fab_progress_showBackground="false"
     />
 
     <com.github.clans.fab.FloatingActionButton
@@ -66,6 +71,8 @@
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accent"
         fab:fab_colorRipple="@color/md_grey_700"
+        fab:fab_progress_color="@color/primary"
+        fab:fab_progress_showBackground="false"
     />
 
 </RelativeLayout>
