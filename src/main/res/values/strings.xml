@@ -12,4 +12,16 @@
     <string name="logout">Logout</string>
     <string name="about">About</string>
     <string name="loading">loading…</string>
+
+    <string name="grader_clocking_instruction">
+        To clock in\\out as a grading assistant, you are required the following: \n
+        \n1. Verify identity by facial recognition.\n
+    </string>
+
+    <string name="teaching_clocking_instruction">
+        To clock in\\out as a teaching assistant, you are required the following: \n
+        \n1. Verify identity by facial recognition.\n
+        \n2. Verify location by scanning a provided QR code.\n
+    </string>
+
 </resources>

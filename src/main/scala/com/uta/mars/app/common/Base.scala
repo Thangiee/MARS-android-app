@@ -1,6 +1,6 @@
 package com.uta.mars.app.common
 
-import android.content.Context
+import android.content.{DialogInterface, Context}
 import android.os.Handler
 import com.github.nscala_time.time.DurationBuilder
 import com.github.nscala_time.time.Imports._
@@ -26,7 +26,7 @@ private[common] trait Base extends AnyRef with LazyLogging {
 
   def clearAllRepeatTasks(): Unit = repeatHandler.removeCallbacksAndMessages(null)
 
-  def showApiErrorDialog(code: Int): Unit = {
+  def showApiErrorDialog(code: Int, btnName: String = "Dismiss", onClick: DialogInterface => Unit = d => d.dismiss()): Unit = {
     val (title, msg) = code match {
       case 400 => ("400: Bad Request", "The request contains bad syntax or cannot be fulfilled.")
       case 401 => ("401: Unauthorized", "Invalid authentication, check your credentials.")
@@ -41,7 +41,7 @@ private[common] trait Base extends AnyRef with LazyLogging {
     }
 
     new AlertDialogBuilder(title, msg)(getCtx) {
-      positiveButton("Dismiss")
+      positiveButton(btnName, (d, _) => onClick(d))
     }.show()
   }
 }
