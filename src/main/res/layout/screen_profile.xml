@@ -18,7 +18,6 @@
             android:id="@+id/bg_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/uta"
             app:miv_load_on_create="true"
             app:miv_max_relative_size="1.5"
             app:miv_min_relative_offset=".6"
@@ -26,17 +25,22 @@
             app:miv_repetitions="-1"
             app:miv_speed="10" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/md_black"
+            android:alpha=".4"/>
+
         <com.makeramen.roundedimageview.RoundedImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/face_img"
             android:src="@drawable/ic_launcher"
-            android:layout_height="82dp"
-            android:layout_width="82dp"
+            android:layout_height="76dp"
+            android:layout_width="76dp"
             android:layout_centerInParent="true"
-            app:riv_corner_radius="41dip"
-            app:riv_mutate_background="true"
-            app:riv_oval="true"
-            />
+            app:riv_corner_radius="36dip"
+            app:riv_border_color="@color/md_white"
+            app:riv_border_width="1dip"/>
 
     </RelativeLayout>
 

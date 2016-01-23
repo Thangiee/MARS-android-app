@@ -1,14 +1,19 @@
 package com.uta.mars.app
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.v4.graphics.drawable.{RoundedBitmapDrawableFactory, RoundedBitmapDrawable}
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView.Adapter
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView, Toolbar}
 import android.view.{MenuItem, View}
-import android.widget.TextView
+import android.widget.{ImageView, TextView}
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.github.clans.fab.FloatingActionButton
 import com.github.florent37.viewanimator.ViewAnimator
+import com.makeramen.roundedimageview.RoundedImageView
 import com.skocken.efficientadapter.lib.adapter.EfficientRecyclerAdapter
 import com.skocken.efficientadapter.lib.viewholder.EfficientViewHolder
 import com.uta.mars.R
@@ -27,6 +32,8 @@ class ProfileAct extends BaseActivity {
   private lazy val editFAB      = find[FloatingActionButton](R.id.fab)
   private lazy val recyclerView = find[RecyclerView](R.id.recyclerView)
   private lazy val asstNameTv   = find[TextView](R.id.titleText)
+  private lazy val faceImgView  = find[RoundedImageView](R.id.face_img)
+  private lazy val bgImgView    = find[ImageView](R.id.bg_image)
 
   protected override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
@@ -43,11 +50,31 @@ class ProfileAct extends BaseActivity {
 
     // add custom effects that will animate as the user scroll up/down
     val scrollingLayout = find[MaterialScrollingLayout](R.id.materialScrollingLayout)
-    scrollingLayout.addBehavior(find(R.id.bg_image), new ParallaxBehavior())
+    scrollingLayout.addBehavior(bgImgView, new ParallaxBehavior())
     scrollingLayout.addBehavior(find(R.id.face_img), new ParallaxBehavior())
     scrollingLayout.addBehavior(find(R.id.overlayView), new OverlayBehavior())
     scrollingLayout.addBehavior(asstNameTv, new NameBehavior())
     scrollingLayout.addBehavior(editFAB, new FabBehavior())
+
+    // load assistant face image
+    MarsApi.faceImages().map(_.images.headOption.foreach(img => runOnUiThread {
+      Glide.`with`(ctx)
+        .load(img.url)
+        .asBitmap()
+        .placeholder(R.drawable.ic_launcher)
+        .animate(android.R.anim.fade_in)
+        .centerCrop()
+        .into(new BitmapImageViewTarget(faceImgView) {
+          override def setResource(resource: Bitmap): Unit = {
+            val drawable = RoundedBitmapDrawableFactory.create(getResources, resource)
+            drawable.setCircular(true)
+            faceImgView.setImageDrawable(drawable)
+          }
+        })
+    }))
+
+    // load header background image
+    Glide.`with`(ctx).load(R.drawable.uta).thumbnail(0.1f).into(bgImgView)
 
     MarsApi.assistantInfo()
       .map(asst => initData(asst))

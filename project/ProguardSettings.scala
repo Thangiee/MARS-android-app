@@ -14,6 +14,8 @@ object ProguardSettings {
     "-dontwarn org.slf4j.**",
     "-dontwarn java.**",
     "-dontwarn sun.misc.Unsafe",
+    "-keep public class * implements com.bumptech.glide.module.GlideModule",
+    "-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {\n    **[] $VALUES;\n    public *;\n}",
     "-keep class com.noveogroup.android.log.LoggerManager { *; }",
     "-keep class com.google.zxing.** { *; }",
     "-keep class com.uta.mars.app.** { *; }",

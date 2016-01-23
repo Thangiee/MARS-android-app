@@ -56,7 +56,8 @@ libraryDependencies ++= Seq(
   "com.github.florent37" % "viewanimator"         % "1.0.0",
   "com.github.naman14"   % "TimelyTextView"       % "1.0",
   "com.dlazaro66.qrcodereaderview" % "qrcodereaderview" % "1.0.0",
-  "org.scalactic" %% "scalactic" % "2.2.6"
+  "org.scalactic" %% "scalactic" % "2.2.6",
+  "com.github.bumptech.glide" % "glide" % "3.6.1"
 )
 
 run <<= run in Android

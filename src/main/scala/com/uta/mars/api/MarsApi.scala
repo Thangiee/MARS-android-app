@@ -64,6 +64,9 @@ object MarsApi extends AnyRef with LazyLogging {
   def recordsFromThisPayPeriod(ttl: Duration=20.seconds)(implicit sess: Session): FutureOr[Records, Err] =
     call(GET("/records?filter=pay-period"), ttl).map(_.as[Records])
 
+  def faceImages(ttl: Duration=1.hour)(implicit sess: Session) : FutureOr[FaceImages, Err] =
+    call(GET("/face"), ttl).map(_.as[FaceImages])
+
   def emailTimeSheet()(implicit sess: Session): FutureOr[Unit, Err] = {
     import com.github.nscala_time.time.Imports._
     val today = LocalDate.now()
