@@ -52,12 +52,12 @@ class ClockInOutAct extends BaseActivity {
           .map(succ => doClockInOut(Some(compId)))
           .badMap {
             case Err(410, _) =>
-              progressWheel.setInvisible()
+              runOnUiThread(progressWheel.setInvisible())
               new AlertDialogBuilder("Verification failed", "The scanned QR code has already expired.") {
                 positiveButton("Ok")
               }.show()
             case Err(code, _) =>
-              progressWheel.setInvisible()
+              runOnUiThread(progressWheel.setInvisible())
               showApiErrorDialog(code)
           }
 
