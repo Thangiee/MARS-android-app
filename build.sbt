@@ -54,7 +54,7 @@ libraryDependencies ++= Seq(
   "com.skocken"          % "efficientadapter.lib" % "2.0",
   "com.makeramen"        % "roundedimageview"     % "2.2.1",
   "com.github.florent37" % "viewanimator"         % "1.0.0",
-  "com.github.naman14"   % "TimelyTextView"       % "1.0",
+  "com.github.adnan-SM" % "TimelyTextView" % "ead3c48eaa",
   "com.dlazaro66.qrcodereaderview" % "qrcodereaderview" % "1.0.0",
   "org.scalactic" %% "scalactic" % "2.2.6",
   "com.github.bumptech.glide" % "glide" % "3.6.1"

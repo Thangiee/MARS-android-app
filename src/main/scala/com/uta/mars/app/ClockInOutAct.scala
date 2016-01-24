@@ -2,6 +2,7 @@ package com.uta.mars.app
 
 import android.app.Activity
 import android.content.{Context, Intent}
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore.Images
 import android.support.v7.widget.Toolbar
@@ -63,14 +64,14 @@ class ClockInOutAct extends BaseActivity {
 
       case (FACE_DETECT_REQUEST, Activity.RESULT_OK, true)  =>
         progressWheel.setVisible()
-        Toast.makeText(ctx, "Processing...", Toast.LENGTH_LONG).show()
+        Toast.makeText(ctx, "Analyzing...", Toast.LENGTH_LONG).show()
         doFaceRecognition().map(isSuccessful => {
           if (isSuccessful) startActivityForResult(new Intent(ctx, classOf[QrCodeScanAct]), QR_CODE_REQUEST)
         })
 
       case (FACE_DETECT_REQUEST, Activity.RESULT_OK, false) =>
         progressWheel.setVisible()
-        Toast.makeText(ctx, "Processing...", Toast.LENGTH_LONG).show()
+        Toast.makeText(ctx, "Analyzing...", Toast.LENGTH_LONG).show()
         doFaceRecognition().map(isSuccessful => if (isSuccessful) doClockInOut())
 
       case (_, Activity.RESULT_CANCELED, _) =>
@@ -85,8 +86,11 @@ class ClockInOutAct extends BaseActivity {
     }
 
     def doFaceRecognition(): Future[Boolean] = {
-      val faceImg = Images.Media.getBitmap(ctx.contentResolver, data.getParcelableExtra(FACE_IMG_KEY)).toBytes
-      MarsApi.facialRecognition(faceImg)
+      // load the face image
+      val faceUri = data.getParcelableExtra[Uri](FACE_IMG_KEY)
+      val faceImg = Images.Media.getBitmap(ctx.contentResolver, faceUri).toBytes
+
+      val result  = MarsApi.facialRecognition(faceImg)
         .map(result => {
           logger.debug(s"Recognition Result: $result")
           if (result.confidence >= result.threshold) true
@@ -100,6 +104,9 @@ class ClockInOutAct extends BaseActivity {
         })
         .badMap(err => { runOnUiThread(progressWheel.setInvisible()); showApiErrorDialog(err.code); false })
         .merge
+
+      ctx.getContentResolver.delete(faceUri, null, null) // delete the face image afterwords
+      result
     }
 
     def doClockInOut(compId: Option[String]=None): Unit = {
