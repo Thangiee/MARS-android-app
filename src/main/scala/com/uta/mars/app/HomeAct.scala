@@ -2,25 +2,33 @@ package com.uta.mars.app
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.Toolbar
-import android.view.{View, Menu, MenuItem}
+import android.view.{Menu, MenuItem}
+import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.github.clans.fab.FloatingActionButton
 import com.github.florent37.viewanimator.ViewAnimator
 import com.github.nscala_time.time.Imports._
+import com.makeramen.roundedimageview.RoundedImageView
 import com.uta.mars.R
 import com.uta.mars.app.common._
 import org.scaloid.common._
 
 class HomeAct extends BaseActivity {
 
-  private lazy val toolbar      = find[Toolbar](R.id.toolbar)
-  private lazy val profileFAB   = find[FloatingActionButton](R.id.fab_profile)
-  private lazy val clockInFAB   = find[FloatingActionButton](R.id.fab_clock_in)
-  private lazy val clockOutFAB  = find[FloatingActionButton](R.id.fab_clock_out)
-  private lazy val timeSheetFAB = find[FloatingActionButton](R.id.fab_time_sheet)
-  private lazy val stopWatch    = find[StopWatchView](R.id.stop_watch)
+  private lazy val toolbar       = find[Toolbar](R.id.toolbar)
+  private lazy val profileFAB    = find[FloatingActionButton](R.id.fab_profile)
+  private lazy val clockInFAB    = find[FloatingActionButton](R.id.fab_clock_in)
+  private lazy val clockOutFAB   = find[FloatingActionButton](R.id.fab_clock_out)
+  private lazy val timeSheetFAB  = find[FloatingActionButton](R.id.fab_time_sheet)
+  private lazy val stopWatch     = find[StopWatchView](R.id.stop_watch)
+  private lazy val faceImgView   = find[RoundedImageView](R.id.face_img)
+  private lazy val clockInTimeTv = find[TextView](R.id.clock_in_time_tv)
 
   private val CLOCK_IN_REQUEST  = 100
   private val CLOCK_OUT_REQUEST = 101
@@ -29,7 +37,24 @@ class HomeAct extends BaseActivity {
     super.onCreate(b)
     setContentView(R.layout.screen_home)
     setSupportActionBar(toolbar)
-    setTitle("Home")
+    setTitle("M.A.R.S")
+
+    // load assistant face image
+    MarsApi.faceImages().map(_.images.headOption.foreach(img => runOnUiThread {
+      Glide.`with`(ctx)
+        .load(img.url)
+        .asBitmap()
+        .placeholder(R.drawable.ic_launcher)
+        .animate(android.R.anim.fade_in)
+        .centerCrop()
+        .into(new BitmapImageViewTarget(faceImgView) {
+          override def setResource(resource: Bitmap): Unit = {
+            val drawable = RoundedBitmapDrawableFactory.create(getResources, resource)
+            drawable.setCircular(true)
+            faceImgView.setImageDrawable(drawable)
+          }
+        })
+    }))
 
     Seq(profileFAB, clockInFAB, timeSheetFAB, clockOutFAB).foreach(_.hide(false))
 
@@ -99,15 +124,16 @@ class HomeAct extends BaseActivity {
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Unit = {
     (requestCode, resultCode) match {
       case (CLOCK_IN_REQUEST, Activity.RESULT_OK) =>
-        stopWatch.reset()
         stopWatch.start()
         clockInFAB.hide(true)
         delay(250.millis)(clockOutFAB.show(true))
+        delay(350.millis)(Snackbar.make(find(R.id.root), "Successfully clocked in", 3000).show())
 
       case (CLOCK_OUT_REQUEST, Activity.RESULT_OK) =>
         stopWatch.stop()
         clockOutFAB.hide(true)
         delay(250.millis)(clockInFAB.show(true))
+        delay(350.millis)(Snackbar.make(find(R.id.root), "Successfully clocked out", 3000).show())
 
       case _ =>
     }
@@ -150,6 +176,8 @@ class HomeAct extends BaseActivity {
       Seq(profileFAB, clockInFAB, timeSheetFAB).zip(1 to 3).foreach {
         case (fab, i) => delay((i*250).millis)(fab.show(true))
       }
+      stopWatch.stop()
+      clockInTimeTv.setText("")
     }
 
     def setupClockOut(record: Record): Unit = runOnUiThread {
@@ -157,7 +185,9 @@ class HomeAct extends BaseActivity {
       Seq(profileFAB, clockOutFAB, timeSheetFAB).zip(1 to 3).foreach {
         case (fab, i) => delay((i*250).millis)(fab.show(true))
       }
-      // todo: show how long the asst has been clocked in based on record clock in time
+      stopWatch.setTime(System.currentTimeMillis() - record.inTime)
+      stopWatch.start()
+      clockInTimeTv.setText(s"Clocked In @ ${DateTimeFormat.forPattern("h:mm a, MMM dd").print(record.inTime)}")
     }
   }
 

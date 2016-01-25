@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:swv="http://schemas.android.com/apk/res/com.uta.mars"
                 xmlns:fab="http://schemas.android.com/apk/res/com.uta.mars"
                 android:id="@+id/root"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/screen_gray_bg">
+                android:background="@color/primary"
+    >
 
     <include layout="@layout/toolbar"/>
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/face_img"
+        android:src="@drawable/ic_launcher"
+        android:layout_height="76dp"
+        android:layout_width="76dp"
+        app:riv_corner_radius="36dip"
+        app:riv_border_color="@color/md_white"
+        app:riv_border_width="1dip"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/stop_watch"
+        android:layout_marginBottom="56dp"/>
 
     <com.uta.mars.app.StopWatchView
         android:id="@+id/stop_watch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        swv:swv_radius="150dp"
         android:layout_centerInParent="true"/>
 
     <com.github.clans.fab.FloatingActionButton
@@ -21,29 +33,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_person_outline_white_24dp"
+        android:src="@drawable/ic_person_outline_blue_24dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="16dp"
-        fab:fab_progress_color="@color/primary"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/accent"
+        fab:fab_colorNormal="@color/md_white"
+        fab:fab_colorPressed="@color/md_grey_700"
         fab:fab_colorRipple="@color/md_grey_700"
+        fab:fab_progress_color="@color/accent"
         fab:fab_progress_showBackground="false"
-    />
+        />
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab_clock_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_alarm_add_white_24dp"
+        android:src="@drawable/ic_alarm_add_blue_24dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/accent"
+        fab:fab_colorNormal="@color/md_white"
         fab:fab_colorRipple="@color/md_grey_700"
-        fab:fab_progress_color="@color/primary"
+        fab:fab_colorPressed="@color/md_grey_700"
+        fab:fab_progress_color="@color/accent"
         fab:fab_progress_showBackground="false"
         />
 
@@ -55,7 +67,10 @@
         android:src="@drawable/ic_alarm_off_white_24dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        fab:fab_progress_color="@color/primary"
+        fab:fab_colorNormal="@color/md_red_500"
+        fab:fab_colorRipple="@color/md_grey_700"
+        fab:fab_colorPressed="@color/md_red_700"
+        fab:fab_progress_color="@color/md_white"
         fab:fab_progress_showBackground="false"
     />
 
@@ -68,11 +83,22 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/accent"
+        fab:fab_colorNormal="@color/md_white"
         fab:fab_colorRipple="@color/md_grey_700"
-        fab:fab_progress_color="@color/primary"
+        fab:fab_colorPressed="@color/md_grey_700"
+        fab:fab_progress_color="@color/accent"
         fab:fab_progress_showBackground="false"
     />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Clocked time: 12:00 pm"
+        android:textColor="@color/md_white"
+        android:id="@+id/clock_in_time_tv"
+        android:layout_below="@+id/stop_watch"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"/>
 
 </RelativeLayout>

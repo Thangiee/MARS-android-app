@@ -8,7 +8,7 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView.Adapter
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView, Toolbar}
 import android.view.{MenuItem, View}
-import android.widget.{ImageView, TextView}
+import android.widget.{Chronometer, ImageView, TextView}
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.github.clans.fab.FloatingActionButton
