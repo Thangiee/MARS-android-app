@@ -156,7 +156,10 @@ class HomeAct extends BaseActivity {
 
   override def onOptionsItemSelected(item: MenuItem): Boolean = {
     item.getItemId match {
-      case R.id.menu_logout => finish(); startActivity[LoginAct]; true
+      case R.id.menu_logout =>
+        MarsApi.clearCache()
+        session.removeCookies()
+        finish(); startActivity[LoginAct]; true
       case _ /* no match */ => super.onOptionsItemSelected(item)
     }
   }
