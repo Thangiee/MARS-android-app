@@ -166,13 +166,17 @@ class HomeAct extends BaseActivity {
 
   private def setUpViews(): Unit = {
     MarsApi.recordsFromThisPayPeriod()
-      .badMap(err => showApiErrorDialog(err.code, "Retry", _ => setUpViews()))
       .map {
         case Records(Nil)         => setupClockIn() // no previous records so clock in
         case Records(record :: _) =>
           // defined means that user has previously clocked out
           if (record.outTime.isDefined) setupClockIn() else setupClockOut(record)
       }
+      .badMap {
+        case Err(403, _)  => showApiErrorDialog(403, "Re-Login", _ => { finish(); startActivity[LoginAct] })
+        case Err(code, _) => showApiErrorDialog(code, "Retry", _ => setUpViews())
+      }
+
 
     def setupClockIn(): Unit = runOnUiThread {
       // Make those FABs pop in from a left to right sequence

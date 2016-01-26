@@ -19,6 +19,7 @@ object ProguardSettings {
     "-keep class com.noveogroup.android.log.LoggerManager { *; }",
     "-keep class com.google.zxing.** { *; }",
     "-keep class com.uta.mars.app.** { *; }",
+    "-keep class com.dlazaro66.qrcodereaderview.** { *; }",
     "-keepclassmembers public class * extends com.skocken.efficientadapter.lib.viewholder.EfficientViewHolder {public <init>(...);}"
   )
 
@@ -37,6 +38,7 @@ object ProguardSettings {
     "com.typesafe",
     "com.fasterxml.jackson",
     "com.noveogroup",
+    "com.dlazaro66.qrcodereaderview",
     "play",
     "scalacache"
   )

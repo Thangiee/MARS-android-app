@@ -56,7 +56,7 @@ object MarsApi extends AnyRef with LazyLogging {
     call(POST("/records/clock-out").postForm(Seq("computerid" -> compId.getOrElse("")))).map(_ => Unit)
 
   def facialRecognition(img: Array[Byte])(implicit sess: Session): FutureOr[RecognitionResult, Err] =
-    call(POST("/face/recognition").postMulti(MultiPart("img", "face.png", "image/png", img))).map(_.as[RecognitionResult])
+    call(POST("/face/recognition").postMulti(MultiPart("img", "face.jpg", "image/jpg", img))).map(_.as[RecognitionResult])
 
   def verifyUUID(uuid: String)(implicit sess: Session): FutureOr[Unit, Err] =
     call(GET(s"/register-uuid/verify/$uuid")).map(_ => Unit)
