@@ -37,7 +37,7 @@ class HomeAct extends BaseActivity {
     super.onCreate(b)
     setContentView(R.layout.screen_home)
     setSupportActionBar(toolbar)
-    setTitle("M.A.R.S")
+    setTitle(R.string.app_name)
 
     // load assistant face image
     MarsApi.faceImages().map(_.images.headOption.foreach(img => runOnUiThread {
