@@ -38,7 +38,7 @@ class LoginAct extends BaseActivity {
   }
 
   private def doRegistration(): Unit = {
-    val i = new Intent(this, classOf[RegistrationAct])
+    val i = new Intent(this, classOf[RegistrationSetupAct])
     val transOpt = ActivityOptions.makeSceneTransitionAnimation(this, registrationFAB, R.string.shared_fab_reg.r2str)
     startActivity(i, transOpt.toBundle)
   }

@@ -35,13 +35,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".app.RegistrationAct"/>
+        <activity android:name=".app.RegistrationSetupAct"/>
         <activity android:name=".app.HomeAct"/>
         <activity android:name=".app.ProfileAct"/>
         <activity android:name=".app.ClockInOutAct"/>
         <activity android:name=".app.QrCodeScanAct"/>
         <activity android:name=".app.FaceDetectionAct"/>
-        <activity android:name=".app.RegistrationDetail"/>
+        <activity android:name=".app.RegistrationAct"/>
 
     </application>
 </manifest>

@@ -1,86 +1,92 @@
 package com.uta.mars.app
 
+import android.content.{Context, Intent}
 import android.os.Bundle
-import android.support.v7.widget.CardView
-import android.view.animation.DecelerateInterpolator
-import android.view.{View, ViewAnimationUtils}
-import android.widget.ImageView
-import com.dd.morphingbutton.impl.LinearProgressButton
-import com.github.clans.fab.FloatingActionButton
-import com.github.nscala_time.time.Imports._
+import android.support.v7.widget.Toolbar
+import android.view.{Menu, MenuItem}
+import android.widget.RadioGroup
 import com.rengwuxian.materialedittext.MaterialEditText
 import com.rengwuxian.materialedittext.validation.RegexpValidator
 import com.uta.mars.R
+import com.uta.mars.api.Assistant
 import com.uta.mars.app.common._
-import org.scaloid.common._
+import org.scaloid.common.AlertDialogBuilder
 
 class RegistrationAct extends BaseActivity {
 
-  private lazy val regFAB    = find[FloatingActionButton](R.id.fab_reg)
-  private lazy val regForm   = find[CardView](R.id.reg_form)
-  private lazy val loginForm = find[CardView](R.id.login_form)
-  private lazy val nextBtn   = find[LinearProgressButton](R.id.reg_next_btn)
-  private lazy val cancelBtn = find[ImageView](R.id.cancel)
-  private lazy val loginBtn  = find[LinearProgressButton](R.id.login_btn)
+  private lazy val toolbar      = find[Toolbar](R.id.toolbar)
+  private lazy val netIdEt      = find[MaterialEditText](R.id.et_net_id)
+  private lazy val empIdEt      = find[MaterialEditText](R.id.et_emp_id)
+  private lazy val usernameEt   = find[MaterialEditText](R.id.et_username)
+  private lazy val passwordEt   = find[MaterialEditText](R.id.et_password)
+  private lazy val emailEt      = find[MaterialEditText](R.id.et_email)
+  private lazy val deptEt       = find[MaterialEditText](R.id.et_dept)
+  private lazy val rateEt       = find[MaterialEditText](R.id.et_rate)
+  private lazy val titleEt      = find[MaterialEditText](R.id.et_title)
+  private lazy val titleCodeEt  = find[MaterialEditText](R.id.et_title_code)
+  private lazy val jobTypeGroup = find[RadioGroup](R.id.rg_job_type)
+  private lazy val allEditTexts = Seq(netIdEt, empIdEt, usernameEt, passwordEt, emailEt, deptEt, rateEt, titleEt, titleCodeEt)
 
-  private lazy val firstNameEt  = find[MaterialEditText](R.id.et_first_name)
-  private lazy val lastNameEt   = find[MaterialEditText](R.id.et_last_name)
-  private lazy val regCodeEt    = find[MaterialEditText](R.id.et_reg_code)
-  private lazy val allEditTexts = Seq(firstNameEt, lastNameEt, regCodeEt)
+  private lazy val firstName = getIntent.getStringExtra("first")
+  private lazy val lastName  = getIntent.getStringExtra("last")
 
-  override def onCreate(b: Bundle): Unit = {
+  protected override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
-    setContentView(R.layout.screen_reg)
+    setContentView(R.layout.screen_registration)
+    setSupportActionBar(toolbar)
+    setTitle("Registration")
+    getSupportActionBar.setDisplayHomeAsUpEnabled(true)
 
-    allEditTexts.map(_.addValidator(new RegexpValidator("Can't be blank", ".+")))
+    val noBlank = new RegexpValidator("Can't be blank", ".+")
+    val noSpace = new RegexpValidator("Can't have spaces", "^\\s*\\S*$")
 
-    loginBtn.morphToNormalBtn(R.string.login.r2str)
-    nextBtn.morphToNormalBtn(R.string.next.r2str, R.color.md_white)
-    nextBtn.onClick {
-      if (allEditTexts.forall(_.validate())) {
-        //todo: check registration code
-        startActivity(RegistrationDetail(firstNameEt.txt2Str, lastNameEt.txt2Str))
+    allEditTexts.map(_.addValidator(noBlank))
+    netIdEt.addValidator(noSpace)
+    empIdEt.addValidator(noSpace)
+  }
+
+  override def onCreateOptionsMenu(menu: Menu): Boolean = {
+    getMenuInflater.inflate(R.menu.register, menu)
+    true
+  }
+
+  override def onOptionsItemSelected(item: MenuItem): Boolean = {
+    item.getItemId match {
+      case R.id.menu_register => if (allEditTexts.forall(_.validate())) { doRegisitration() }; true
+      case android.R.id.home  => finish(); true
+      case _ /* no match */   => super.onOptionsItemSelected(item)
+    }
+  }
+
+  private def doRegisitration(): Unit = {
+    val job = jobTypeGroup.getCheckedRadioButtonId match {
+      case R.id.rb_teaching => "teaching"
+      case R.id.rb_grading  => "grading"
+      case _                => ""
+    }
+
+    val asst = Assistant(
+      rateEt.txt2Double, netIdEt.txt2Str, emailEt.txt2Str,
+      job, deptEt.txt2Str, lastName, firstName, empIdEt.txt2Str,
+      threshold=0.4, titleEt.txt2Str, titleCodeEt.txt2Str
+    )
+
+    MarsApi.createAcc(usernameEt.txt2Str, passwordEt.txt2Str, asst)
+      .map(_ => {
+        new AlertDialogBuilder("Account Created", "You can now login with this account.") {
+          positiveButton("Login", { finish(); startActivity[LoginAct] })
+        }.show()
+      })
+      .badMap {
+        case Err(400, msg) => new AlertDialogBuilder("Bad Input", msg) { positiveButton("Back") } show()
+        case Err(409, msg) => new AlertDialogBuilder("Conflict", msg) { positiveButton("Back") } show()
+        case Err(code, _)  => showApiErrorDialog(code)
       }
-    }
-    cancelBtn.onClick((v: View) => setupReturnTransition())
-    setupEnterTransition()
   }
+}
 
-  override def onBackPressed(): Unit = {
-    setupReturnTransition()
-  }
-
-  // Set up animations when changing from LoginAct to RegistrationAct.
-  private def setupEnterTransition(): Unit = {
-    val trans = R.transition.login_to_reg.r2Trans
-    trans.onTransitionStart { (_, _) =>
-      loginForm.startAnimation(R.anim.login_form_to_bg.r2anim)
-      delay(1150.millis) {
-        regFAB.setVisible()
-        regForm.setVisible()
-        ViewAnimationUtils.createCircularReveal(regForm, regForm.centerX, regForm.centerY, 56, regForm.getHeight)
-          .setDuration(500)
-          .onAnimationStart(_ => regFAB.setInvisible())
-          .start()
-      }
-    }
-    getWindow.setSharedElementEnterTransition(trans)
-  }
-
-  // Set up animations when returning to LoginAct from this activity.
-  private def setupReturnTransition(): Unit = {
-    ViewAnimationUtils.createCircularReveal(regForm, regForm.centerX, regForm.centerY, regForm.getHeight, 56)
-      .setDuration(500)
-      .interpolator(new DecelerateInterpolator())
-      .onAnimationStart(_ => loginForm.startAnimation(R.anim.login_form_to_fg.r2anim))
-      .onAnimationEnd(_ => regForm.setInvisible())
-      .onAnimationEnd(_ => regFAB.setVisible())
-      .start()
-
-    delay(650.millis) {
-      val returnTrans = R.transition.reg_to_login.r2Trans
-      getWindow.setSharedElementReturnTransition(returnTrans)
-      finishAfterTransition()
-    }
+object RegistrationAct {
+  def apply(firstName: String, lastName: String)(implicit ctx: Context): Intent = {
+    new Intent(ctx, classOf[RegistrationAct]).args("first" -> firstName, "last" -> lastName)
   }
 }
