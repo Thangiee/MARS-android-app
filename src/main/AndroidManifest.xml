@@ -41,6 +41,7 @@
         <activity android:name=".app.ClockInOutAct"/>
         <activity android:name=".app.QrCodeScanAct"/>
         <activity android:name=".app.FaceDetectionAct"/>
+        <activity android:name=".app.RegistrationDetail"/>
 
     </application>
 </manifest>

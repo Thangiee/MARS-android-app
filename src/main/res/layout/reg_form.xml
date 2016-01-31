@@ -40,13 +40,13 @@
             android:background="@color/md_white"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/et_reg_username"
+            android:id="@+id/et_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/user"
+            android:hint="First Name"
+            android:textCursorDrawable="@null"
             met:met_floatingLabel="highlight"
             met:met_baseColor="@color/md_white"
-            met:met_floatingLabelText="@string/user"
             met:met_primaryColor="@color/md_white"
             met:met_floatingLabelTextSize="14sp"
             met:met_textColor="@color/md_white"
@@ -59,50 +59,48 @@
             android:layout_marginRight="28dp"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/et_reg_password"
+            android:id="@+id/et_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/pass"
+            android:hint="Last Name"
+            android:textCursorDrawable="@null"
             met:met_floatingLabel="highlight"
-            met:met_floatingLabelText="@string/pass"
             met:met_baseColor="@color/md_white"
             met:met_primaryColor="@color/md_white"
             met:met_textColor="@color/md_white"
             met:met_floatingLabelTextSize="14sp"
             android:singleLine="true"
-            android:inputType="textPassword"
             android:textSize="16sp"
-            android:layout_below="@+id/et_reg_username"
+            android:layout_below="@+id/et_first_name"
             android:layout_alignLeft="@+id/textView"
             android:layout_marginTop="8dp"
-            android:layout_alignRight="@+id/et_reg_username"/>
+            android:layout_alignRight="@+id/et_first_name"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/et_reg_password_confirm"
+            android:id="@+id/et_reg_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/pass_confirm"
+            android:hint="Registration Code"
+            android:textCursorDrawable="@null"
             met:met_floatingLabel="highlight"
-            met:met_floatingLabelText="@string/pass_confirm"
             met:met_baseColor="@color/md_white"
             met:met_primaryColor="@color/md_white"
             met:met_textColor="@color/md_white"
             met:met_floatingLabelTextSize="14sp"
             android:singleLine="true"
-            android:inputType="textPassword"
             android:textSize="16sp"
-            android:layout_below="@+id/et_reg_password"
+            android:layout_below="@+id/et_last_name"
             android:layout_alignLeft="@+id/textView"
             android:layout_marginTop="8dp"
-            android:layout_alignRight="@+id/et_reg_username"/>
+            android:layout_alignRight="@+id/et_first_name"/>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_below="@+id/et_reg_password_confirm"
+            android:layout_below="@+id/et_reg_code"
             android:layout_marginTop="16dp"
-            android:layout_alignLeft="@+id/et_reg_username"
-            android:layout_alignRight="@+id/et_reg_username">
+            android:layout_alignLeft="@+id/et_first_name"
+            android:layout_alignRight="@+id/et_first_name">
 
             <com.dd.morphingbutton.impl.LinearProgressButton
                 android:id="@+id/reg_next_btn"

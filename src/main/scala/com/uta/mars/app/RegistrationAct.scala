@@ -8,6 +8,8 @@ import android.widget.ImageView
 import com.dd.morphingbutton.impl.LinearProgressButton
 import com.github.clans.fab.FloatingActionButton
 import com.github.nscala_time.time.Imports._
+import com.rengwuxian.materialedittext.MaterialEditText
+import com.rengwuxian.materialedittext.validation.RegexpValidator
 import com.uta.mars.R
 import com.uta.mars.app.common._
 import org.scaloid.common._
@@ -21,12 +23,25 @@ class RegistrationAct extends BaseActivity {
   private lazy val cancelBtn = find[ImageView](R.id.cancel)
   private lazy val loginBtn  = find[LinearProgressButton](R.id.login_btn)
 
+  private lazy val firstNameEt  = find[MaterialEditText](R.id.et_first_name)
+  private lazy val lastNameEt   = find[MaterialEditText](R.id.et_last_name)
+  private lazy val regCodeEt    = find[MaterialEditText](R.id.et_reg_code)
+  private lazy val allEditTexts = Seq(firstNameEt, lastNameEt, regCodeEt)
+
   override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
     setContentView(R.layout.screen_reg)
 
+    allEditTexts.map(_.addValidator(new RegexpValidator("Can't be blank", ".+")))
+
     loginBtn.morphToNormalBtn(R.string.login.r2str)
     nextBtn.morphToNormalBtn(R.string.next.r2str, R.color.md_white)
+    nextBtn.onClick {
+      if (allEditTexts.forall(_.validate())) {
+        //todo: check registration code
+        startActivity(RegistrationDetail(firstNameEt.txt2Str, lastNameEt.txt2Str))
+      }
+    }
     cancelBtn.onClick((v: View) => setupReturnTransition())
     setupEnterTransition()
   }

@@ -13,6 +13,7 @@ import android.transition.{Transition, TransitionInflater}
 import android.util.{AttributeSet, TypedValue}
 import android.view.View
 import android.view.animation.{Animation, AnimationUtils}
+import android.widget.TextView
 import com.dd.morphingbutton.MorphingButton
 import com.dd.morphingbutton.impl.LinearProgressButton
 import com.github.florent37.viewanimator.AnimationListener.Update
@@ -95,6 +96,12 @@ trait ViewImplicits {
     def centerY: Int = (v.getBottom- v.getTop) / 2
     def setVisible(): View = { v.setVisibility(View.VISIBLE); v }
     def setInvisible(): View = { v.setVisibility(View.INVISIBLE); v }
+  }
+
+  implicit class RichTextView(tv: TextView) {
+    def txt2Str: String = tv.getText.toString
+    def txt2Int: Int = tv.getText.toString.toInt
+    def txt2Double: Double = tv.getText.toString.toDouble
   }
 }
 

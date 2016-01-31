@@ -22,6 +22,7 @@ package object common extends AnyRef with Implicits {
   val FutureOr  = com.uta.mars.api.FutureOr
   val Good    = org.scalactic.Good
   val Bad     = org.scalactic.Bad
+  val Account = com.uta.mars.api.Account
 
   // constants
   val UUID_KEY      = UUID.randomUUID().toString
