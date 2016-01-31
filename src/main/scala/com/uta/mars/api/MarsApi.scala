@@ -76,6 +76,16 @@ object MarsApi extends AnyRef with LazyLogging {
     else                           call(GET(s"/time-sheet/second-half-month?year=$y&month=$m")).map(_ => Unit)
   }
 
+  def createAcc(user: String, passwd: String, asst: Assistant)(implicit sess: Session): FutureOr[Unit, Err] = {
+    val request = POST("/account/assistant").postForm.params(
+      "netid" -> asst.netId,      "user"  -> user,               "pass"      -> passwd,
+      "email" -> asst.email,      "rate"  -> asst.rate.toString, "job"       -> asst.job,
+      "dept"  -> asst.department, "first" -> asst.firstName,     "last"      -> asst.lastName,
+      "empid" -> asst.employeeId, "title" -> asst.title,         "titlecode" -> asst.titleCode
+    )
+    call(request).map(_ => Unit)
+  }
+
   /**
    * This method will check if the response to the request has been cached to avoid unnecessary trips over network.
    * If the the response is not cached, the request happens and the result is cached on status code 200 and ttl is > 0.
