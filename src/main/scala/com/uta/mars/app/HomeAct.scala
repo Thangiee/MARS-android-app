@@ -56,6 +56,12 @@ class HomeAct extends BaseActivity {
         })
     }))
 
+    // Check that the asst have enough face images to do facial recognition.
+    // If not, then go take some face photos.
+    MarsApi.faceImages().map(face =>
+      if (face.images.size < 5) runOnUiThread(startActivity(FaceRecogSetupAct(numPhotoNeeded=5-face.images.size)))
+    )
+
     Seq(profileFAB, clockInFAB, timeSheetFAB, clockOutFAB).foreach(_.hide(false))
 
     timeSheetFAB.onClick {

@@ -58,6 +58,9 @@ object MarsApi extends AnyRef with LazyLogging {
   def facialRecognition(img: Array[Byte])(implicit sess: Session): FutureOr[RecognitionResult, Err] =
     call(POST("/face/recognition").postMulti(MultiPart("img", "face.jpg", "image/jpg", img))).map(_.as[RecognitionResult])
 
+  def addFaceForRecognition(img: Array[Byte])(implicit sess: Session): FutureOr[Unit, Err] =
+    call(POST("/face").postMulti(MultiPart("img", "face.jpg", "image/jpg", img))).map(_ => Unit)
+
   def verifyUUID(uuid: String)(implicit sess: Session): FutureOr[Unit, Err] =
     call(GET(s"/register-uuid/verify/$uuid")).map(_ => Unit)
 
@@ -95,7 +98,7 @@ object MarsApi extends AnyRef with LazyLogging {
       Try(request.cookies(sess.cookies).asString) match {
         case Success(HttpResponse(body, 200, _))  =>
           logger.info(s"Call successful: 200 -> $body")
-          if (ttl.toMillis > 0) sync.cachingWithTTL(request.url)(ttl)(body)
+          if (ttl.toMillis > 0) sync.cachingWithTTL(s"${request.method}-${request.url}")(ttl)(body)
           Good(Try(Json.parse(body)).getOrElse(JsNull))
         case Success(HttpResponse(body, code, _)) =>
           logger.info(s"Call failure: $code -> $body")

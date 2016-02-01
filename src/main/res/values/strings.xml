@@ -24,4 +24,8 @@
         \n2. Verify location by scanning a provided QR code.\n
     </string>
 
+    <string name="face_recog_setup_instruction">
+        Your account does not have enough face photos for facial recognition needed for clocking in and out.
+    </string>
+
 </resources>

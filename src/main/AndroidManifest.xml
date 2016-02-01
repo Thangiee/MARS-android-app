@@ -42,6 +42,7 @@
         <activity android:name=".app.QrCodeScanAct"/>
         <activity android:name=".app.FaceDetectionAct"/>
         <activity android:name=".app.RegistrationAct"/>
+        <activity android:name=".app.FaceRecogSetupAct"/>
 
     </application>
 </manifest>
