@@ -43,6 +43,7 @@
         <activity android:name=".app.FaceDetectionAct"/>
         <activity android:name=".app.RegistrationAct"/>
         <activity android:name=".app.FaceRecogSetupAct"/>
+        <activity android:name=".app.ProfileEditAct"/>
 
     </application>
 </manifest>

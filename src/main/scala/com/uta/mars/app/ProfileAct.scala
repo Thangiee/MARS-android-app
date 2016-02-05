@@ -1,8 +1,10 @@
 package com.uta.mars.app
 
-import android.content.Context
+import android.app.Activity
+import android.content.{Intent, Context}
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.graphics.drawable.{RoundedBitmapDrawableFactory, RoundedBitmapDrawable}
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView.Adapter
@@ -49,7 +51,7 @@ class ProfileAct extends BaseActivity {
     getSupportActionBar.setDisplayHomeAsUpEnabled(true)
 
     // add custom effects that will animate as the user scroll up/down
-    val scrollingLayout = find[MaterialScrollingLayout](R.id.materialScrollingLayout)
+    val scrollingLayout = find[MaterialScrollingLayout](R.id.root)
     scrollingLayout.addBehavior(bgImgView, new ParallaxBehavior())
     scrollingLayout.addBehavior(find(R.id.face_img), new ParallaxBehavior())
     scrollingLayout.addBehavior(find(R.id.overlayView), new OverlayBehavior())
@@ -76,24 +78,26 @@ class ProfileAct extends BaseActivity {
     // load header background image
     Glide.`with`(ctx).load(R.drawable.uta).thumbnail(0.1f).into(bgImgView)
 
+    editFAB.onClick(startActivityForResult(ProfileEditAct(), 0))
+  }
+
+  override def onResume(): Unit = {
+    super.onResume()
     MarsApi.assistantInfo()
-      .map(asst => initData(asst))
+      .map(asst => runOnUiThread {
+        asstNameTv.setText(s"${asst.firstName} ${asst.lastName}")
+        val adapter = new EfficientRecyclerAdapter[Assistant](R.layout.asst_profile_info, classOf[AsstViewHolder], Seq(asst))
+        recyclerView.setLayoutManager(new LinearLayoutManager(ctx))
+        recyclerView.setAdapter(adapter.asInstanceOf[Adapter[AsstViewHolder]])
+      })
       .badMap { case Err(code, msg) =>
         logger.warn(s"Expected MarsApi.assistantInfo to be cached by HomeAct but got: $code, $msg")
         showApiErrorDialog(code)
       }
-
-    editFAB.onClick {
-      // todo: implement
-    }
   }
 
-  private def initData(asst: Assistant): Unit = runOnUiThread {
-    asstNameTv.setText(s"${asst.firstName} ${asst.lastName}")
-
-    val adapter = new EfficientRecyclerAdapter[Assistant](R.layout.asst_profile_info, classOf[AsstViewHolder], Seq(asst))
-    recyclerView.setLayoutManager(new LinearLayoutManager(ctx))
-    recyclerView.setAdapter(adapter.asInstanceOf[Adapter[AsstViewHolder]])
+  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Unit = {
+    if (resultCode == Activity.RESULT_OK) Snackbar.make(recyclerView, "Profile Updated", 3000).show()
   }
 
   override def onOptionsItemSelected(item: MenuItem): Boolean = {

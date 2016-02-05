@@ -49,6 +49,11 @@ object MarsApi extends AnyRef with LazyLogging {
   def assistantInfo(ttl: Duration=20.minutes)(implicit sess: Session): FutureOr[Assistant, Err] =
     call(GET("/assistant"), ttl).map(_.as[Assistant])
 
+  def updateAssistant(rate: Double, dept: String, title: String, code: String)(implicit sess: Session): FutureOr[Unit, Err] = {
+    scalacache.remove(s"GET-$baseUrl/assistant")
+    call(POST("/assistant").postForm.params("rate" -> rate.toString, "dept" -> dept, "title" -> title, "titlecode" -> code)).map(_ => Unit)
+  }
+
   def clockIn(compId: Option[String]=None)(implicit sess: Session): FutureOr[Unit, Err] =
     call(POST("/records/clock-in").postForm(Seq("computerid" -> compId.getOrElse("")))).map(_ => Unit)
 
