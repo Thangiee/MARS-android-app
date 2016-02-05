@@ -35,7 +35,7 @@
         android:layout_gravity="center_horizontal|top"
         android:layout_centerHorizontal="true"
         android:layout_alignTop="@+id/reg_form"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="96dp"
         />
 
     <include
