@@ -25,8 +25,7 @@ class RegistrationSetupAct extends BaseActivity {
 
   private lazy val firstNameEt  = find[MaterialEditText](R.id.et_first_name)
   private lazy val lastNameEt   = find[MaterialEditText](R.id.et_last_name)
-  private lazy val regCodeEt    = find[MaterialEditText](R.id.et_reg_code)
-  private lazy val allEditTexts = Seq(firstNameEt, lastNameEt, regCodeEt)
+  private lazy val allEditTexts = Seq(firstNameEt, lastNameEt)
 
   override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
@@ -37,10 +36,7 @@ class RegistrationSetupAct extends BaseActivity {
     loginBtn.morphToNormalBtn(R.string.login.r2str)
     nextBtn.morphToNormalBtn(R.string.next.r2str, R.color.md_white)
     nextBtn.onClick {
-      if (allEditTexts.forall(_.validate())) {
-        //todo: check registration code
-        startActivity(RegistrationAct(firstNameEt.txt2Str, lastNameEt.txt2Str))
-      }
+      if (allEditTexts.forall(_.validate())) { startActivity(RegistrationAct(firstNameEt.txt2Str, lastNameEt.txt2Str)) }
     }
     cancelBtn.onClick((v: View) => setupReturnTransition())
     setupEnterTransition()

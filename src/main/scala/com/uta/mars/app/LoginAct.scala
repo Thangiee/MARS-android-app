@@ -53,7 +53,8 @@ class LoginAct extends BaseActivity {
           if (isAssistantRole) goToHomeAct()
           else { super.session.removeCookies(); showInvalidRole() }
         }.badMap {
-          case Err(403, msg)  => showInvalidUserOrPass()
+          case Err(401, msg)  => showInvalidUserOrPass()
+          case Err(403, msg)  => new AlertDialogBuilder("403: Forbidden", msg) { positiveButton("Ok") } show(); runOnUiThread(loginBtn.morphToErrorBtn())
           case Err(498, msg)  => showNoConnection()
           case Err(code, msg) => showApiErrorDialog(code); runOnUiThread(loginBtn.morphToErrorBtn())
         }
