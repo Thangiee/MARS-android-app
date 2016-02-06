@@ -28,4 +28,14 @@
         Your account does not have enough face photos for facial recognition needed for clocking in and out.
     </string>
 
+    <string name="about_info">
+        This App was developed as part of a senior design project (fall 2015 - spring 2016) by Team Padawan: \n
+        \n
+        Thang Le thangiee0@gmail.com\n
+        Bernae Tull bernaedeeann@gmail.com\n
+        Calvin Hovs. leadfarmer88@gmail.com\n
+        Minglu Wang mingluswag@gmail.com\n
+        Bruce Derou brucederou@gmail.com
+    </string>
+
 </resources>

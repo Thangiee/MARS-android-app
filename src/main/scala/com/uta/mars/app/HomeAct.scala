@@ -166,6 +166,9 @@ class HomeAct extends BaseActivity {
         MarsApi.clearCache()
         session.removeCookies()
         finish(); startActivity[LoginAct]; true
+      case R.id.menu_about =>
+        new AlertDialogBuilder("About", R.string.about_info.r2String) { positiveButton("Ok") } show()
+        true
       case _ /* no match */ => super.onOptionsItemSelected(item)
     }
   }
