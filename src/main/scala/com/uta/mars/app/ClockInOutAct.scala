@@ -22,8 +22,8 @@ class ClockInOutAct extends BaseActivity {
   private lazy val startBtn      = find[Button](R.id.btn_start)
   private lazy val progressWheel = find[ProgressWheel](R.id.progress_wheel)
 
-  private lazy val isTeachingJob = getIntent.getStringExtra("0") == "teaching"
-  private lazy val isClockingIn  = getIntent.getBooleanExtra("1", true)
+  private lazy val isTeachingJob = getIntent.getStringExtra("job") == "teaching"
+  private lazy val isClockingIn  = getIntent.getBooleanExtra("is-clocking-in", true)
 
   private val QR_CODE_REQUEST     = 100
   private val FACE_DETECT_REQUEST = 101
@@ -43,14 +43,16 @@ class ClockInOutAct extends BaseActivity {
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Unit = {
     // steps for teaching job: face recognition -> scan QR code -> clock in/out
     // steps for grading job: face recognition -> clock in/out
+    val Teaching = true
+    val Grading = false
 
     (requestCode, resultCode, isTeachingJob) match {
-      case (QR_CODE_REQUEST, Activity.RESULT_OK, true)      =>
+      case (QR_CODE_REQUEST, Activity.RESULT_OK, Teaching)      =>
         val uuid = data.getStringExtra(UUID_KEY)
         val compId = data.getStringExtra(COMP_ID_KEY)
 
         MarsApi.verifyUUID(uuid)
-          .map(succ => doClockInOut(Some(compId)))
+          .map(succ => doClockInOut(compId))
           .badMap {
             case Err(410, _) =>
               runOnUiThread(progressWheel.setInvisible())
@@ -62,17 +64,17 @@ class ClockInOutAct extends BaseActivity {
               showApiErrorDialog(code)
           }
 
-      case (FACE_DETECT_REQUEST, Activity.RESULT_OK, true)  =>
+      case (FACE_DETECT_REQUEST, Activity.RESULT_OK, Teaching)  =>
         progressWheel.setVisible()
         Toast.makeText(ctx, "Analyzing...", Toast.LENGTH_LONG).show()
         doFaceRecognition().map(isSuccessful => {
           if (isSuccessful) startActivityForResult(new Intent(ctx, classOf[QrCodeScanAct]), QR_CODE_REQUEST)
         })
 
-      case (FACE_DETECT_REQUEST, Activity.RESULT_OK, false) =>
+      case (FACE_DETECT_REQUEST, Activity.RESULT_OK, Grading) =>
         progressWheel.setVisible()
         Toast.makeText(ctx, "Analyzing...", Toast.LENGTH_LONG).show()
-        doFaceRecognition().map(isSuccessful => if (isSuccessful) doClockInOut())
+        doFaceRecognition().map(isSuccessful => if (isSuccessful) doClockInOut("Undisclosed location"))
 
       case (_, Activity.RESULT_CANCELED, _) =>
         progressWheel.setInvisible()
@@ -109,7 +111,7 @@ class ClockInOutAct extends BaseActivity {
       result
     }
 
-    def doClockInOut(compId: Option[String]=None): Unit = {
+    def doClockInOut(compId: String): Unit = {
       val response = if (isClockingIn) MarsApi.clockIn(compId) else MarsApi.clockOut(compId)
       response
         .map(succ => { setResult(Activity.RESULT_OK); finish() })
@@ -125,6 +127,6 @@ class ClockInOutAct extends BaseActivity {
 
 object ClockInOutAct {
   def apply(asstInfo: Assistant, isClockingIn: Boolean)(implicit ctx: Context): Intent = {
-    new Intent(ctx, classOf[ClockInOutAct]).args("0" -> asstInfo.job, "1" -> isClockingIn)
+    new Intent(ctx, classOf[ClockInOutAct]).args("job" -> asstInfo.job, "is-clocking-in" -> isClockingIn)
   }
 }
