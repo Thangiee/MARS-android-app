@@ -27,12 +27,12 @@ object MarsApi extends AnyRef with LazyLogging {
   private def POST(route: String) = Http(baseUrl + route).timeout(10000, 10000).method("POST")
   private def GET(route: String)  = Http(baseUrl + route).timeout(10000, 10000).method("GET")
 
-  def login(username: String, password: String): FutureOr[IndexedSeq[HttpCookie], Err] = {
+  def login(username: String, password: String): FutureOr[(IndexedSeq[HttpCookie], Account), Err] = {
     val request = Future {
       Try(POST("/session/login").auth(username, password).asString) match {
         case Success(response) =>
           response.code match {
-            case 200 => Good(response.cookies)
+            case 200 => Good((response.cookies, Try(Json.parse(response.body)).getOrElse(JsNull).as[Account]))
             case code => logger.info(s"${response.code}-${response.body}"); Bad(Err(code, response.body))
           }
         case Failure(ex) => Bad(exceptionToError(ex))
@@ -51,14 +51,14 @@ object MarsApi extends AnyRef with LazyLogging {
 
   def updateAssistant(rate: Double, dept: String, title: String, code: String)(implicit sess: Session): FutureOr[Unit, Err] = {
     scalacache.remove(s"GET-$baseUrl/assistant")
-    call(POST("/assistant").postForm.params("rate" -> rate.toString, "dept" -> dept, "title" -> title, "titlecode" -> code)).map(_ => Unit)
+    call(POST("/assistant").postForm.params("rate" -> rate.toString, "dept" -> dept, "title" -> title, "title_code" -> code)).map(_ => Unit)
   }
 
   def clockIn(compId: String)(implicit sess: Session): FutureOr[Unit, Err] =
-    call(POST("/records/clock-in").postForm(Seq("computerid" -> compId))).map(_ => Unit)
+    call(POST("/records/clock-in").postForm(Seq("computer_id" -> compId))).map(_ => Unit)
 
   def clockOut(compId: String)(implicit sess: Session): FutureOr[Unit, Err] =
-    call(POST("/records/clock-out").postForm(Seq("computerid" -> compId))).map(_ => Unit)
+    call(POST("/records/clock-out").postForm(Seq("computer_id" -> compId))).map(_ => Unit)
 
   def facialRecognition(img: Array[Byte])(implicit sess: Session): FutureOr[RecognitionResult, Err] =
     call(POST("/face/recognition").postMulti(MultiPart("img", "face.jpg", "image/jpg", img))).map(_.as[RecognitionResult])
@@ -86,10 +86,10 @@ object MarsApi extends AnyRef with LazyLogging {
 
   def createAcc(user: String, passwd: String, asst: Assistant)(implicit sess: Session): FutureOr[Unit, Err] = {
     val request = POST("/account/assistant").postForm.params(
-      "netid" -> asst.netId,      "user"  -> user,               "pass"      -> passwd,
-      "email" -> asst.email,      "rate"  -> asst.rate.toString, "job"       -> asst.job,
-      "dept"  -> asst.department, "first" -> asst.firstName,     "last"      -> asst.lastName,
-      "empid" -> asst.employeeId, "title" -> asst.title,         "titlecode" -> asst.titleCode
+      "net_id" -> asst.netId,      "user"  -> user,               "pass"       -> passwd,
+      "email"  -> asst.email,      "rate"  -> asst.rate.toString, "job"        -> asst.job,
+      "dept"   -> asst.department, "first" -> asst.firstName,     "last"       -> asst.lastName,
+      "emp_id" -> asst.employeeId, "title" -> asst.title,         "title_code" -> asst.titleCode
     )
     call(request).map(_ => Unit)
   }

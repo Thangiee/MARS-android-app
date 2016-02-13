@@ -14,7 +14,7 @@ import com.uta.mars.app.common._
 import org.scaloid.common._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Future
 
 class LoginAct extends BaseActivity {
 
@@ -47,10 +47,10 @@ class LoginAct extends BaseActivity {
     fillProgressBar(0, 50, 500.millis) // fill progress bar from 0% to 50%
     delay(500.millis) {
       MarsApi.login(usernameEt.text.toString, passwordEt.text.toString)
-        .map { cookies =>
+        .map { case (cookies, acc) =>
           session.saveCookies(cookies)
           // check that the logged in user is an assistant before proceeding
-          if (isAssistantRole) goToHomeAct()
+          if (acc.role.toLowerCase == "assistant") goToHomeAct()
           else { super.session.removeCookies(); showInvalidRole() }
         }.badMap {
           case Err(401, msg)  => showInvalidUserOrPass()
@@ -66,13 +66,6 @@ class LoginAct extends BaseActivity {
       delay(1550.millis) {
         startActivity[HomeAct]
         finish()
-      }
-    }
-
-    def isAssistantRole: Boolean = {
-      Await.result(MarsApi.accountInfo().value, 10.seconds) match {
-        case Good(account) => if (account.role.toLowerCase == "assistant") true else false
-        case _             => false
       }
     }
 
