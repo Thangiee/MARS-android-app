@@ -1,5 +1,6 @@
 package com.uta.mars.app
 
+import android.Manifest._
 import android.app.Activity
 import android.content.{Context, Intent}
 import android.net.Uri
@@ -12,6 +13,7 @@ import com.pnikosis.materialishprogress.ProgressWheel
 import com.uta.mars.R
 import com.uta.mars.app.common._
 import org.scaloid.common._
+import pl.tajchert.nammu.{Nammu, PermissionCallback}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -37,8 +39,19 @@ class ClockInOutAct extends BaseActivity {
 
     progressWheel.setInvisible()
     instructionTv.setText(if (isTeachingJob) R.string.teaching_clocking_instruction.r2str else R.string.grader_clocking_instruction.r2str)
-    startBtn.onClick(startActivityForResult(new Intent(ctx, classOf[FaceDetectionAct]), FACE_DETECT_REQUEST))
+
+    Nammu.init(getApplicationContext)
+    startBtn.onClick {
+      val permissions = Seq(permission.CAMERA, permission.READ_EXTERNAL_STORAGE, permission.WRITE_EXTERNAL_STORAGE)
+      Nammu.askForPermission(ClockInOutAct.this, permissions.toArray, new PermissionCallback() {
+        override def permissionGranted(): Unit = startActivityForResult(new Intent(ctx, classOf[FaceDetectionAct]), FACE_DETECT_REQUEST)
+        override def permissionRefused(): Unit = {}
+      })
+    }
   }
+
+  override def onRequestPermissionsResult(requestCode: Int, permissions: Array[String], grantResults: Array[Int]): Unit =
+    Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Unit = {
     // steps for teaching job: face recognition -> scan QR code -> clock in/out
