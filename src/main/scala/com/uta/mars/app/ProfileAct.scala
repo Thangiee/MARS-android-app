@@ -1,11 +1,11 @@
 package com.uta.mars.app
 
 import android.app.Activity
-import android.content.{Intent, Context}
+import android.content.{Context, Intent}
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.graphics.drawable.{RoundedBitmapDrawableFactory, RoundedBitmapDrawable}
+import android.support.v4.graphics.drawable.{RoundedBitmapDrawable, RoundedBitmapDrawableFactory}
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView.Adapter
 import android.support.v7.widget.{LinearLayoutManager, RecyclerView, Toolbar}
@@ -27,6 +27,7 @@ import org.scaloid.common._
 
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.Random
 
 class ProfileAct extends BaseActivity {
 
@@ -59,21 +60,23 @@ class ProfileAct extends BaseActivity {
     scrollingLayout.addBehavior(editFAB, new FabBehavior())
 
     // load assistant face image
-    MarsApi.faceImages().map(_.images.headOption.foreach(img => runOnUiThread {
-      Glide.`with`(ctx)
-        .load(img.url)
-        .asBitmap()
-        .placeholder(R.drawable.ic_launcher)
-        .animate(android.R.anim.fade_in)
-        .centerCrop()
-        .into(new BitmapImageViewTarget(faceImgView) {
-          override def setResource(resource: Bitmap): Unit = {
-            val drawable = RoundedBitmapDrawableFactory.create(getResources, resource)
-            drawable.setCircular(true)
-            faceImgView.setImageDrawable(drawable)
-          }
-        })
-    }))
+    MarsApi.faceImages().map(_.headOption.foreach(img =>
+      runOnUiThread {
+        Glide.`with`(ctx)
+          .load(img.url)
+          .asBitmap()
+          .placeholder(R.drawable.ic_launcher)
+          .animate(android.R.anim.fade_in)
+          .centerCrop()
+          .into(new BitmapImageViewTarget(faceImgView) {
+            override def setResource(resource: Bitmap): Unit = {
+              val drawable = RoundedBitmapDrawableFactory.create(getResources, resource)
+              drawable.setCircular(true)
+              faceImgView.setImageDrawable(drawable)
+            }
+          })
+      }
+    ))
 
     // load header background image
     Glide.`with`(ctx).load(R.drawable.uta).thumbnail(0.1f).into(bgImgView)

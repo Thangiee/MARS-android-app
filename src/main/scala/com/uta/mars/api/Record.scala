@@ -13,10 +13,3 @@ object Record {
   import play.api.libs.json._
   implicit val recordFmt = Json.reads[Record]
 }
-
-case class Records(records: Seq[Record])
-
-object Records {
-  import play.api.libs.json._
-  implicit val RecordsFmt = Json.reads[Records]
-}

@@ -19,6 +19,8 @@ import com.uta.mars.R
 import com.uta.mars.app.common._
 import org.scaloid.common._
 
+import scala.util.Random
+
 class HomeAct extends BaseActivity {
 
   private lazy val toolbar       = find[Toolbar](R.id.toolbar)
@@ -40,26 +42,28 @@ class HomeAct extends BaseActivity {
     setTitle(R.string.app_name)
 
     // load assistant face image
-    MarsApi.faceImages().map(_.images.headOption.foreach(img => runOnUiThread {
-      Glide.`with`(ctx)
-        .load(img.url)
-        .asBitmap()
-        .placeholder(R.drawable.ic_launcher)
-        .animate(android.R.anim.fade_in)
-        .centerCrop()
-        .into(new BitmapImageViewTarget(faceImgView) {
-          override def setResource(resource: Bitmap): Unit = {
-            val drawable = RoundedBitmapDrawableFactory.create(getResources, resource)
-            drawable.setCircular(true)
-            faceImgView.setImageDrawable(drawable)
-          }
-        })
-    }))
+    MarsApi.faceImages().map(_.headOption.foreach(img =>
+      runOnUiThread {
+        Glide.`with`(ctx)
+          .load(img.url)
+          .asBitmap()
+          .placeholder(R.drawable.ic_launcher)
+          .animate(android.R.anim.fade_in)
+          .centerCrop()
+          .into(new BitmapImageViewTarget(faceImgView) {
+            override def setResource(resource: Bitmap): Unit = {
+              val drawable = RoundedBitmapDrawableFactory.create(getResources, resource)
+              drawable.setCircular(true)
+              faceImgView.setImageDrawable(drawable)
+            }
+          })
+      }
+    ))
 
     // Check that the asst have enough face images to do facial recognition.
     // If not, then go take some face photos.
-    MarsApi.faceImages().map(face =>
-      if (face.images.size < 5) runOnUiThread(startActivity(FaceRecogSetupAct(numPhotoNeeded=5-face.images.size)))
+    MarsApi.faceImages().map(faces =>
+      if (faces.size < 5) runOnUiThread(startActivity(FaceRecogSetupAct(numPhotoNeeded=5-faces.size)))
     )
 
     Seq(profileFAB, clockInFAB, timeSheetFAB, clockOutFAB).foreach(_.hide(false))
@@ -176,8 +180,8 @@ class HomeAct extends BaseActivity {
   private def setUpViews(): Unit = {
     MarsApi.recordsFromThisPayPeriod()
       .map {
-        case Records(Nil)         => setupClockIn() // no previous records so clock in
-        case Records(record :: _) =>
+        case Nil         => setupClockIn() // no previous records so clock in
+        case record :: _ =>
           // defined means that user has previously clocked out
           if (record.outTime.isDefined) setupClockIn() else setupClockOut(record)
       }

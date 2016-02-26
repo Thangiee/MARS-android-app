@@ -69,11 +69,11 @@ object MarsApi extends AnyRef with LazyLogging {
   def verifyUUID(uuid: String)(implicit sess: Session): FutureOr[Unit, Err] =
     call(GET(s"/register-uuid/verify/$uuid")).map(_ => Unit)
 
-  def recordsFromThisPayPeriod(ttl: Duration=20.seconds)(implicit sess: Session): FutureOr[Records, Err] =
-    call(GET("/records?filter=pay-period"), ttl).map(_.as[Records])
+  def recordsFromThisPayPeriod(ttl: Duration=20.seconds)(implicit sess: Session): FutureOr[Seq[Record], Err] =
+    call(GET("/records?filter=pay-period"), ttl).map(js => (js \ "records").as[Seq[Record]])
 
-  def faceImages(ttl: Duration=1.hour)(implicit sess: Session) : FutureOr[FaceImages, Err] =
-    call(GET("/face"), ttl).map(_.as[FaceImages])
+  def faceImages(ttl: Duration=1.hour)(implicit sess: Session) : FutureOr[Seq[FaceImage], Err] =
+    call(GET("/face"), ttl).map(js => (js \ "images").as[Seq[FaceImage]])
 
   def emailTimeSheet()(implicit sess: Session): FutureOr[Unit, Err] = {
     import com.github.nscala_time.time.Imports._
