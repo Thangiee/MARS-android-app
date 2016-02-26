@@ -63,7 +63,7 @@ class ProfileAct extends BaseActivity {
     MarsApi.faceImages().map(_.headOption.foreach(img =>
       runOnUiThread {
         Glide.`with`(ctx)
-          .load(img.url)
+          .load(img.url+s"?size=${72.dipToPixels.toInt}")
           .asBitmap()
           .placeholder(R.drawable.ic_launcher)
           .animate(android.R.anim.fade_in)
