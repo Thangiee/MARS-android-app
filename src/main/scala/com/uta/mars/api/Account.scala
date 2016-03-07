@@ -1,6 +1,6 @@
 package com.uta.mars.api
 
-case class Account(netId: String, role: String, username: String, createTime: Long, passwd: String)
+case class Account(netId: String, role: String, username: String, createTime: Long)
 
 object Account {
   import play.api.libs.json._
