@@ -21,7 +21,7 @@ resolvers ++= Seq(
 )
 
 // android support libs
-val androidSupportV = "23.1.1"
+val androidSupportV = "23.2.0"
 libraryDependencies ++= Seq(
   "com.android.support" % "design"          % androidSupportV,
   "com.android.support" % "appcompat-v7"    % androidSupportV,
