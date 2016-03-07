@@ -99,12 +99,14 @@ object MarsApi extends AnyRef with LazyLogging {
    * If the the response is not cached, the request happens and the result is cached on status code 200 and ttl is > 0.
    */
   private def call(request: HttpRequest, ttl: Duration=0.milli)(implicit sess: Session): FutureOr[JsValue, Err] = {
+    val cacheKey = s"${request.method}-${request.url}"
+
     def doRequestCall(): Or[JsValue, Err] = {
       Try(request.cookies(sess.cookies).asString) match {
-        case Success(HttpResponse(body, 200, _))  =>
-          logger.info(s"Call successful: 200 -> $body")
-          if (ttl.toMillis > 0) sync.cachingWithTTL(s"${request.method}-${request.url}")(ttl)(body)
-          Good(Try(Json.parse(body)).getOrElse(JsNull))
+        case Success(HttpResponse(json, 200, _))  =>
+          logger.info(s"Call successful: 200 -> $json")
+          if (ttl.toMillis > 0) { sync.cachingWithTTL(cacheKey)(ttl)(json) }
+          Good(Try(Json.parse(json)).getOrElse(JsNull))
         case Success(HttpResponse(body, code, _)) =>
           logger.info(s"Call failure: $code -> $body")
           Bad(Err(code, body))
@@ -113,9 +115,9 @@ object MarsApi extends AnyRef with LazyLogging {
     }
 
     FutureOr(
-      scalacache.get[String](request.url).map {
-        case Some(cacheHit) => Good(Json.parse(cacheHit)) // cache hit
-        case None           => doRequestCall() // cache missed; do the http request to get the data.
+      scalacache.get[String](cacheKey).map {
+        case Some(json) => Good(Json.parse(json)) // cache hit
+        case None       => doRequestCall() // cache missed; do the http request to get the data.
       }
     )
   }
