@@ -104,7 +104,9 @@ class ProfileAct extends BaseActivity {
   }
 
   override def onOptionsItemSelected(item: MenuItem): Boolean = {
-    if (item.getItemId == android.R.id.home) finish()
+    if (item.getItemId == android.R.id.home && !getSupportFragmentManager.popBackStackImmediate()) {
+      this.supportFinishAfterTransition()
+    }
     super.onOptionsItemSelected(item)
   }
 }

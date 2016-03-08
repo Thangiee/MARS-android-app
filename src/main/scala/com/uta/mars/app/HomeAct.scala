@@ -1,6 +1,6 @@
 package com.uta.mars.app
 
-import android.app.Activity
+import android.app.{Activity, ActivityOptions}
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -104,7 +104,9 @@ class HomeAct extends BaseActivity {
       profileFAB.setProgress(5, true)
       loadAsstInfo.map(_ => runOnUiThread {
         animateFABProgress(profileFAB)
-        delay(550.millis)(startActivity[ProfileAct])
+        val i = new Intent(this, classOf[ProfileAct])
+        val transOpt = ActivityOptions.makeSceneTransitionAnimation(this, faceImgView, R.string.shared_profile_img.r2str)
+        delay(550.millis)(startActivity(i, transOpt.toBundle))
       })
     }
 
