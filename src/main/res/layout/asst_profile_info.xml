@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_email"
+            android:src="@drawable/ic_mail_24dp"
             style="@style/ListIcon"
             />
 
@@ -56,7 +56,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_label"
+            android:src="@drawable/ic_label_24dp"
             style="@style/ListIcon"/>
 
         <LinearLayout
@@ -112,7 +112,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_money"
+            android:src="@drawable/ic_attach_money_24dp"
             style="@style/ListIcon"/>
 
         <LinearLayout
@@ -148,7 +148,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_info"
+            android:src="@drawable/ic_info_24dp"
             style="@style/ListIcon"
             />
 

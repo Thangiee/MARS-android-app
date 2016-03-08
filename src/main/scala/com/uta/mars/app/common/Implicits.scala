@@ -182,7 +182,7 @@ trait MorphingBtnImplicits {
         .width(56.dip)
         .height(56.dip)
         .color(R.color.md_light_green_500.r2Color)
-        .icon(R.drawable.ic_done)
+        .icon(R.drawable.ic_done_24dp)
 
       btn.morph(successBtn)
     }
@@ -194,7 +194,7 @@ trait MorphingBtnImplicits {
         .width(56.dip)
         .height(56.dip)
         .color(R.color.md_red_500.r2Color)
-        .icon(R.drawable.ic_close_white_24dp)
+        .icon(R.drawable.ic_close_24dp)
 
       btn.morph(errorBtn)
     }

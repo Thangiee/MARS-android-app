@@ -65,7 +65,7 @@
         android:layout_marginTop="206dp"
         android:layout_gravity="right"
         android:layout_marginRight="24dp"
-        android:src="@drawable/ic_edit"
+        android:src="@drawable/ic_edit_24dp"
         app:fab_colorNormal="@color/accent"
         app:fab_colorPressed="@color/accent"
         app:fab_colorRipple="@color/md_grey_700"
