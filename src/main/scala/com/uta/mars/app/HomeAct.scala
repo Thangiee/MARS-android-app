@@ -69,14 +69,14 @@ class HomeAct extends BaseActivity {
     Seq(profileFAB, clockInFAB, timeSheetFAB, clockOutFAB).foreach(_.hide(false))
 
     timeSheetFAB.onClick {
-      new AlertDialogBuilder("Time Sheet", s"Do you want your time sheet of the current pay period to be sent to your email?") {
+      new AlertDialogBuilder("Time Sheet", R.string.confirm_email_time_sheet.r2str) {
         positiveButton("Yes", onYesBtnClick())
         negativeButton("No")
       }.show()
 
       def onYesBtnClick(): Unit = {
         MarsApi.emailTimeSheet()
-          .map(_ => Snackbar.make(find(R.id.root), "Email sent. I may take up to a few minutes to arrive.", 5000).show())
+          .map(_ => Snackbar.make(find(R.id.root), R.string.email_sent.r2str, 5000).show())
           .badMap(err => showApiErrorDialog(err.code))
       }
     }

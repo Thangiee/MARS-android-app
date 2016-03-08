@@ -38,4 +38,12 @@
         Bruce Derou brucederou@gmail.com
     </string>
 
+    <string name="confirm_email_time_sheet">
+        Do you want the current pay period time sheet to be sent to your email?
+    </string>
+
+    <string name="email_sent">
+        Email sent. I may take up to a few minutes to arrive.
+    </string>
+
 </resources>
