@@ -73,8 +73,8 @@ class RegistrationAct extends BaseActivity {
 
     MarsApi.createAcc(usernameEt.txt2Str, passwordEt.txt2Str, asst)
       .map(_ => {
-        new AlertDialogBuilder("Account Created", "You can now login with this account.") {
-          positiveButton("Login", { finish(); startActivity[LoginAct] })
+        new AlertDialogBuilder("Account Created", R.string.account_created.r2str) {
+          positiveButton("Done", { finish(); startActivity[LoginAct] })
         }.show()
       })
       .badMap {

@@ -47,4 +47,7 @@
         Email sent. I may take up to a few minutes to arrive.
     </string>
 
+    <string name="account_created">
+        Account created. However, it still need to be approve by the admin before logging in.
+    </string>
 </resources>
