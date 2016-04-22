@@ -26,7 +26,7 @@
     </string>
 
     <string name="face_recog_setup_instruction">
-        Your account does not have enough face photos for facial recognition needed for clocking in and out.
+        Your account does not have enough face photos registered for clock in/out facial recognition.
     </string>
 
     <string name="about_info">
@@ -44,10 +44,10 @@
     </string>
 
     <string name="email_sent">
-        Email sent. I may take up to a few minutes to arrive.
+        Email sent. It may take up to a few minutes to arrive.
     </string>
 
     <string name="account_created">
-        Account created. However, it still need to be approve by the admin before logging in.
+        Account created. However, it still needs to be approved by the admin before logging in.
     </string>
 </resources>
