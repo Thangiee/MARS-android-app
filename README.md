@@ -1,6 +1,10 @@
 # MARS-android-app
 Assistants' android client for the Mavs Assistant Reporting System.
 
+<a href="https://play.google.com/store/apps/details?id=com.uta.mars">
+  <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width=258>
+</a>
+
 Features
 --------
 * Clock in/out via facial recognition
